@@ -28,6 +28,7 @@
 #import "ZFFullScreenViewController.h"
 #import "ZFPlayer.h"
 #import "AVMVideoPlayerControl.h"
+#import "OTScreenshotHelper.h"
 
 #define CellPlayerFatherViewTag  200
 
@@ -192,7 +193,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // app退到后台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
     // app进入前台
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground) name:UIApplicationDidBecomeActiveNotification object:nil];
+    //修复 - -在进入APP的接收到屏幕改变方向，自动调整
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     // 监听耳机插入和拔掉通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioRouteChangeListenerCallback:) name:AVAudioSessionRouteChangeNotification object:nil];
@@ -541,19 +543,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /**
  * 截当前屏幕的图
  */
-- (UIImage *)screenshotOfView:(UIView *)view{
-    if (CGRectIsEmpty(view.frame)) {
-        return nil;
-    }
-    UIGraphicsBeginImageContextWithOptions(view.frame.size, YES, 0.0);
-    if ([view respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-        [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
-    } else{
-        [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    }
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+- (UIImage *)screenshotOfView{
+    
+    return [OTScreenshotHelper screenshot];
 }
 
 #pragma mark - KVO
@@ -714,28 +706,41 @@ typedef NS_ENUM(NSInteger, PanDirection){
     
     __weak typeof(self) weakSelf = self;
     self.fullScrrenVC.orientation = orientation;
-    self.fullScrrenVC.screenshotImage = [self screenshotOfView:[UIApplication sharedApplication].keyWindow];
+    self.fullScrrenVC.screenshotImage = [self screenshotOfView];
+//    ZFPlayerShared.isStatusBarHidden = YES;
+    
+    CGAffineTransform transform = [weakSelf getTransformRotationAngle:orientation];
+    BOOL isRightLandscape = (orientation == UIInterfaceOrientationLandscapeRight);
+    transform = CGAffineTransformRotate(transform, isRightLandscape?(M_PI_4):(-M_PI_4));
+    
     [self removeFromSuperview];
+    [kUIApplication.keyWindow addSubview:self];
     
     [self.rootVC presentViewController:self.fullScrrenVC animated:NO completion:^{
-        [weakSelf.fullScrrenVC.view addSubview:weakSelf];
-        CGFloat height = MIN(kScreenWidth, kScreenHeight);
-        CGFloat width = MAX(kScreenWidth, kScreenHeight);
-        weakSelf.frame = CGRectMake(0, 0, width, height);
-        weakSelf.transform = [weakSelf getTransformRotationAngle];
-        [UIView animateWithDuration:0.3 animations:^{
-            weakSelf.transform = CGAffineTransformIdentity;
-        } completion:^(BOOL finished) {
-            weakSelf.fullScrrenVC.screenshotImage = nil;
-            weakSelf.transform = CGAffineTransformIdentity;
-        }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (weakSelf.playDidEnd) { return; }
-            else {
-                [weakSelf.controlView zf_playerShowControlView];
-            }
-        });
     }];
+    
+    CGFloat height = MIN(kScreenWidth, kScreenHeight);
+    CGFloat width = MAX(kScreenWidth, kScreenHeight);
+    [UIView performWithoutAnimation:^{
+        self.frame = CGRectMake(0, 0, width, height);
+        self.transform = transform;
+    }];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        self.transform = CGAffineTransformIdentity;
+        self.fullScrrenVC.screenshotImage = nil;
+//        ZFPlayerShared.isStatusBarHidden = NO;
+        
+        [self removeFromSuperview];
+        [self.fullScrrenVC.view addSubview:self];
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.playDidEnd) {  }
+        else {
+            [self.controlView zf_playerShowControlView];
+        }
+    });
 
 }
 
@@ -747,36 +752,50 @@ typedef NS_ENUM(NSInteger, PanDirection){
         return;
     }
     self.isFullScreen = NO;
-    
     __weak typeof(self) weakSelf = self;
     
-    CGAffineTransform transform = [weakSelf getTransformRotationAngle];
-    BOOL isRightLandscape = CGAffineTransformEqualToTransform(transform, CGAffineTransformMakeRotation(-M_PI_2));
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    BOOL isRightLandscape = ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight);
+    transform = CGAffineTransformRotate(transform, isRightLandscape?(M_PI_4):(-M_PI_4));
     
     if (!self.isCellVideo) {
-        [self.fullScrrenVC dismissViewControllerAnimated:NO completion:^{
-    
-            [weakSelf removeFromSuperview];
-            [kUIApplication.keyWindow addSubview:weakSelf];
-            weakSelf.frame = CGRectMake(weakSelf.playViewFrameWindow.origin.x, weakSelf.playViewFrameWindow.origin.y, weakSelf.playerModel.fatherView.frame.size.width, weakSelf.playerModel.fatherView.frame.size.height);
-            weakSelf.transform = CGAffineTransformRotate(transform, isRightLandscape?(M_PI_4):(-M_PI_4));
-
-            [UIView animateWithDuration:0.3 animations:^{
-                weakSelf.transform = CGAffineTransformIdentity;
-            } completion:^(BOOL finished) {
-                if (self.isFullScreen) {
-                    return ;
-                }
-                [weakSelf addPlayerToFatherView:weakSelf.playerModel.fatherView];
-            }];
-            
-            if (weakSelf.playDidEnd) { return; }
-            else {
-                [weakSelf.controlView zf_playerShowControlView];
+        [kUIApplication.keyWindow addSubview:self];
+        
+        [self.fullScrrenVC.view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isEqual:self]) {
+                [obj removeFromSuperview];
+                *stop = YES;
             }
         }];
-        return;
         
+        [self.fullScrrenVC dismissViewControllerAnimated:NO completion:^{
+        }];
+        
+        [UIView performWithoutAnimation:^{
+            self.frame = self.playViewFrameWindow;
+            self.transform = transform;
+        }];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            if (self.isFullScreen) {
+                return ;
+            }
+            [self addPlayerToFatherView:weakSelf.playerModel.fatherView];
+        }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (self.playDidEnd) {  }
+            else {
+                [self.controlView zf_playerShowControlView];
+            }
+        });
+        
+//        [self.fullScrrenVC dismissViewControllerAnimated:NO completion:^{
+//        }];
+        
+        return;
         
     }else {
         self.transform = transform;
@@ -824,9 +843,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *
  * @return 角度
  */
-- (CGAffineTransform)getTransformRotationAngle {
-    // 状态条的方向已经设置过,所以这个就是你想要旋转的方向
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+- (CGAffineTransform)getTransformRotationAngle:(UIInterfaceOrientation)orientation {
     // 根据要进行旋转的方向来计算旋转的角度
     if (orientation == UIInterfaceOrientationPortrait) {
         return CGAffineTransformIdentity;
@@ -1123,6 +1140,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
 }
 
+- (void)appWillEnterForeground {
+    [self appDidEnterPlayground];
+}
+
 /**
  *  从xx秒开始播放视频跳转
  *
@@ -1283,6 +1304,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    if ([touch.view isKindOfClass:[UIButton class]]) {
+        return NO;
+    }
     
     if (gestureRecognizer == self.shrinkPanGesture && self.isCellVideo) {
         if (!self.isBottomVideo || self.isFullScreen) {
