@@ -125,6 +125,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
 @property (nonatomic, assign) NSInteger              seekTime;
 @property (nonatomic, strong) NSURL                  *videoURL;
 @property (nonatomic, strong) NSDictionary           *resolutionDic;
+
+@property (nonatomic, assign) BOOL                   isWillEnterForegound;
+
 @end
 
 @implementation ZFPlayerView
@@ -193,8 +196,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // app退到后台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
     // app进入前台
-    //修复 - -在进入APP的接收到屏幕改变方向，自动调整
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground_w) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     // 监听耳机插入和拔掉通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioRouteChangeListenerCallback:) name:AVAudioSessionRouteChangeNotification object:nil];
@@ -707,11 +711,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
     __weak typeof(self) weakSelf = self;
     self.fullScrrenVC.orientation = orientation;
     self.fullScrrenVC.screenshotImage = [self screenshotOfView];
-//    ZFPlayerShared.isStatusBarHidden = YES;
-    
+
     CGAffineTransform transform = [weakSelf getTransformRotationAngle:orientation];
     BOOL isRightLandscape = (orientation == UIInterfaceOrientationLandscapeRight);
     transform = CGAffineTransformRotate(transform, isRightLandscape?(M_PI_4):(-M_PI_4));
+    
+    //适配，当视频竖屏状态->退到屏幕->横屏->进入APP 点击横屏问题
+    [[UIApplication sharedApplication] setStatusBarOrientation:orientation];
+    
     
     [self removeFromSuperview];
     [kUIApplication.keyWindow addSubview:self];
@@ -728,9 +735,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     [UIView animateWithDuration:0.3 animations:^{
         self.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
-        self.transform = CGAffineTransformIdentity;
         self.fullScrrenVC.screenshotImage = nil;
-//        ZFPlayerShared.isStatusBarHidden = NO;
         
         [self removeFromSuperview];
         [self.fullScrrenVC.view addSubview:self];
@@ -752,6 +757,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
         return;
     }
     self.isFullScreen = NO;
+    
+    if ([UIApplication sharedApplication].statusBarHidden) {
+        ZFPlayerShared.isStatusBarHidden = NO;
+    }
     __weak typeof(self) weakSelf = self;
     
     CGAffineTransform transform = CGAffineTransformIdentity;
@@ -791,9 +800,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
                 [self.controlView zf_playerShowControlView];
             }
         });
-        
-//        [self.fullScrrenVC dismissViewControllerAnimated:NO completion:^{
-//        }];
         
         return;
         
@@ -868,11 +874,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
     if (orientation == UIInterfaceOrientationLandscapeRight || orientation == UIInterfaceOrientationLandscapeLeft) {
+        
         // 设置横屏
         [self setOrientationLandscapeConstraint:orientation];
     } else if (orientation == UIInterfaceOrientationPortrait) {
         // 设置竖屏
         [self setOrientationPortraitConstraint];
+        
     }
 }
 
@@ -912,7 +920,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
     
     switch (interfaceOrientation) {
         case UIInterfaceOrientationPortraitUpsideDown:{
-//            [self setOrientationPortraitConstraint];
         }
             break;
         case UIInterfaceOrientationPortrait:{
@@ -1120,8 +1127,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)appDidEnterBackground {
     self.didEnterBackground     = YES;
+    self.isWillEnterForegound   = NO;
     // 退到后台锁定屏幕方向
     ZFPlayerShared.isLockScreen = YES;
+    [self.controlView zf_playerPlayBtnState:NO];
     [_player pause];
     self.state                  = ZFPlayerStatePause;
 }
@@ -1130,18 +1139,25 @@ typedef NS_ENUM(NSInteger, PanDirection){
  *  应用进入前台
  */
 - (void)appDidEnterPlayground {
+    
     self.didEnterBackground     = NO;
     // 根据是否锁定屏幕方向 来恢复单例里锁定屏幕的方向
     ZFPlayerShared.isLockScreen = self.isLocked;
-    if (!self.isPauseByUser) {
+    if (!self.isPauseByUser && self.isWillEnterForegound) {
         self.state         = ZFPlayerStatePlaying;
         self.isPauseByUser = NO;
-        [self play];
+        //直接锁屏播放有问题，延迟播放
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self play];
+        });
     }
 }
 
-- (void)appWillEnterForeground {
-    [self appDidEnterPlayground];
+- (void)appDidEnterPlayground_w {
+    self.isWillEnterForegound   = YES;
+    self.didEnterBackground     = NO;
+    // 根据是否锁定屏幕方向 来恢复单例里锁定屏幕的方向
+    ZFPlayerShared.isLockScreen = self.isLocked;
 }
 
 /**
