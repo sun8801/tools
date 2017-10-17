@@ -71,27 +71,8 @@ static const char kHasPlaceholder;
             }
         }
     }
-    
-    NSInteger maxLength = [objc_getAssociatedObject(self, &kMaxInputLength) integerValue];
-    if (maxLength == 0) {
-        maxLength = 1000;
-    }
-    NSString *new = [textView.text stringByReplacingCharactersInRange:range withString:text];
-    NSInteger res = maxLength-[new length];
-    if(res >= 0){
-        return YES;
-    }
-    else{
-        NSRange rg = {0,[text length]+res};
-        if (rg.length>0) {
-            if (text.length < rg.length) {
-                rg.length = text.length;
-            }
-            NSString *s = [text substringWithRange:rg];
-            [textView setText:[textView.text stringByReplacingCharactersInRange:range withString:s]];
-        }
-        return NO;
-    }
+    //字数限制，在textViewDidChange:限制
+    return YES;
 }
 - (void)textViewDidChange:(UITextView *)textView
 {
@@ -102,10 +83,8 @@ static const char kHasPlaceholder;
     if (maxLength == 0) {
         maxLength = 1000;
     }
-    if (textView.text.length > maxLength)
-    {
-        textView.text = [textView.text substringToIndex:maxLength];
-    }
+    
+    [self limitHightCharacters:maxLength];
     
     if (textView.text.length == 0) {
         objc_setAssociatedObject(self, &kHasPlaceholder, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -127,6 +106,27 @@ static const char kHasPlaceholder;
         [self.avm_delegate textViewDidEndEditing:textView];
     }
     [self setNeedsDisplay];
+}
+
+//限制字符判断--有高亮-联想判断
+- (void)limitHightCharacters:(NSInteger)maxLength {
+    NSString *new = self.text;
+    NSString *lang = [[UIApplication sharedApplication]textInputMode].primaryLanguage ;
+    if([lang hasPrefix:@"zh-Hans"]){ //简体中文输入，包括简体拼音，健体五笔，简体手写
+        UITextRange *selectedRange = [self markedTextRange];
+        UITextPosition *position = [self positionFromPosition:selectedRange.start offset:0];
+        
+        if (!position){//非高亮
+            if (new.length > maxLength) {
+                self.text = [new substringToIndex:maxLength];
+            }
+        }
+        
+    }else{//中文输入法以外
+        if (new.length > maxLength) {
+            self.text = [new substringToIndex:maxLength];
+        }
+    }
 }
 
 
