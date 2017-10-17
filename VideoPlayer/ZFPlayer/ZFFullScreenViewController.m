@@ -38,11 +38,6 @@
     self.bgImageView.center = CGPointMake(self.view.frame.size.height/2, self.view.frame.size.width/2);
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    ZFPlayerShared.isStatusBarHidden = NO;
-}
-
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -51,6 +46,13 @@
     }
     return self;
 }
+
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    //为了适配，当视频横屏->双击home ->点击空白区域返回 ->点击AVM -> “返回”按钮 界面错乱问题
+////    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+//}
+
 
 // 是否支持自动转屏
 - (BOOL)shouldAutorotate {
