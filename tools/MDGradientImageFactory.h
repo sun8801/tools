@@ -26,6 +26,11 @@
                                 endColor:(UIColor *)endColor
                                     size:(CGSize)size;
 
++ (UIImage *)gradientImageWithGradientColors:(NSArray <UIColor *>*)gradientColors
+                                  startPoint:(CGPoint)startPoint
+                                    endPoint:(CGPoint)endPoint
+                                        size:(CGSize)size;
+
 + (CAGradientLayer *)gradientLayerWithStartColor:(UIColor *)startColor
                                         endColor:(UIColor *)endColor
                                             size:(CGSize)size;
@@ -35,4 +40,9 @@
                               startPoint:(CGPoint)startPoint
                                 endPoint:(CGPoint)endPoint
                                     size:(CGSize)size;
+
++ (CAGradientLayer *)gradientLayerWithGradientColors:(NSArray <UIColor *> *)gradientColors
+                                          startPoint:(CGPoint)startPoint
+                                            endPoint:(CGPoint)endPoint
+                                                size:(CGSize)size;
 @end
