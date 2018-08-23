@@ -7,9 +7,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UITextField (LimitInputCharacters)
+@interface UITextField (TTLimitInputCharacters)
 /**
  *  限制输入的最大字数
  */
-- (void)limitInputCharacters:(NSInteger)maxLength;
+- (void)TT_limitInputCharacters:(NSUInteger)maxLength;
 @end

@@ -5,12 +5,13 @@
 //  Copyright © 2016年 iminer_szt. All rights reserved.
 //
 
-#import "UITextField+LimitInputCharacters.h"
+#import "UITextField+TTLimitInputCharacters.h"
+#import "NSString+TTLimitTextLength.h"
 #import <objc/runtime.h>
 
 static const char kMaxInputLength;
-@implementation UITextField (LimitInputCharacters)
-- (void)limitInputCharacters:(NSInteger)maxLength{
+@implementation UITextField (TTLimitInputCharacters)
+- (void)TT_limitInputCharacters:(NSUInteger)maxLength{
     objc_setAssociatedObject(self, &kMaxInputLength, @(maxLength), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self addTarget:self action:@selector(textFieldChange) forControlEvents:UIControlEventEditingChanged];
 }
@@ -18,12 +19,10 @@ static const char kMaxInputLength;
 - (void)textFieldChange{
     NSString *toBeString = self.text;
     NSInteger maxLimitLength = [objc_getAssociatedObject(self, &kMaxInputLength) integerValue];
-    if (maxLimitLength == 0) {
-        maxLimitLength = 30;
-    }
+    if (maxLimitLength <= 0) return;
 //    for (UITextInputMode *inputMode in [UITextInputMode activeInputModes]) {
     
-            NSString *lang = [[UIApplication sharedApplication]textInputMode].primaryLanguage ;
+        NSString *lang = [[UIApplication sharedApplication]textInputMode].primaryLanguage ;
 //        NSString *lang = inputMode.primaryLanguage;
         if([lang hasPrefix:@"zh-Hans"]){ //简体中文输入，包括简体拼音，健体五笔，简体手写
             UITextRange *selectedRange = [self markedTextRange];
@@ -31,13 +30,13 @@ static const char kMaxInputLength;
             
             if (!position){//非高亮
                 if (toBeString.length > maxLimitLength) {
-                    self.text = [toBeString substringToIndex:maxLimitLength];
+                    self.text = [toBeString TT_limitStringWithMaxLength:maxLimitLength];
                 }
             }
             
         }else{//中文输入法以外
             if (toBeString.length > maxLimitLength) {
-                self.text = [toBeString substringToIndex:maxLimitLength];
+                self.text = [toBeString TT_limitStringWithMaxLength:maxLimitLength];
             }
         }
 //    }

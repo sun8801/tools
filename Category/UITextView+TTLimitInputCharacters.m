@@ -5,11 +5,8 @@
 //  Copyright © 2016年 iminer_szt. All rights reserved.
 //
 
-#import "UITextView+LimitInputCharacters.h"
-
-#import "NSString+YYAdd.h"
-#import "UIColor+YYAdd.h"
-
+#import "UITextView+TTLimitInputCharacters.h"
+#import "NSString+TTLimitTextLength.h"
 #import <objc/runtime.h>
 
 static const char kMaxInputLength;
@@ -21,23 +18,23 @@ static const char kHasPlaceholder;
 
 
 @end
-@implementation UITextView (LimitInputCharacters)
+@implementation UITextView (TTLimitInputCharacters)
 
-- (void)limitInputCharacters:(NSInteger)maxLength{
+- (void)TT_limitInputCharacters:(NSInteger)maxLength {
     objc_setAssociatedObject(self, &kMaxInputLength, @(maxLength), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     self.delegate = self;
 }
 
-- (void)setMaxLines:(NSUInteger)maxLines {
+- (void)setTT_maxLines:(NSUInteger)maxLines {
     objc_setAssociatedObject(self, &kMaxInputLines, @(maxLines), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSUInteger)maxLines {
+- (NSUInteger)TT_maxLines {
     return [objc_getAssociatedObject(self, &kMaxInputLines) integerValue];
 }
 
-- (void)setPlaceholder:(NSString *)placeholder{
-    if (!placeholder || ![placeholder isNotBlank]) {
+- (void)TT_setPlaceholder:(NSString *)placeholder {
+    if (!placeholder || placeholder.length <= 0) {
         return;
     }
     objc_setAssociatedObject(self, &kPlaceholder, placeholder, OBJC_ASSOCIATION_COPY_NONATOMIC);
@@ -45,23 +42,22 @@ static const char kHasPlaceholder;
     self.delegate = self;
 }
 
-- (id<AVMTextViewLimitInputDelegate>)avm_delegate {
-    return objc_getAssociatedObject(self, @selector(setAvm_delegate:));
+- (id<TTTextViewLimitInputDelegate>)TT_delegate {
+    return objc_getAssociatedObject(self, @selector(setTT_delegate:));
 }
 
-- (void)setAvm_delegate:(id<AVMTextViewLimitInputDelegate>)avm_delegate {
-    objc_setAssociatedObject(self, _cmd, avm_delegate, OBJC_ASSOCIATION_ASSIGN);
+- (void)setTT_delegate:(id<TTTextViewLimitInputDelegate>)TT_delegate {
+    objc_setAssociatedObject(self, _cmd, TT_delegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if (self.avm_delegate && [self.avm_delegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
-        return [self.avm_delegate textView:textView shouldChangeTextInRange:range replacementText:text];
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (self.TT_delegate && [self.TT_delegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
+        return [self.TT_delegate textView:textView shouldChangeTextInRange:range replacementText:text];
     }
     
     //行数
-    NSInteger maxLines = self.maxLines;
+    NSInteger maxLines = self.TT_maxLines;
     if (maxLines != 0) {
         if ([text isEqualToString:@"\n"]) {
             NSArray *textArray = [textView.text componentsSeparatedByString:@"\n"];
@@ -74,17 +70,10 @@ static const char kHasPlaceholder;
     //字数限制，在textViewDidChange:限制
     return YES;
 }
-- (void)textViewDidChange:(UITextView *)textView
-{
-    if (self.avm_delegate && [self.avm_delegate respondsToSelector:@selector(textViewDidChange:)]) {
-        [self.avm_delegate textViewDidChange:textView];
+- (void)textViewDidChange:(UITextView *)textView {
+    if (self.TT_delegate && [self.TT_delegate respondsToSelector:@selector(textViewDidChange:)]) {
+        [self.TT_delegate textViewDidChange:textView];
     }
-    NSInteger maxLength = [objc_getAssociatedObject(self, &kMaxInputLength) integerValue];
-    if (maxLength == 0) {
-        maxLength = 1000;
-    }
-    
-    [self limitHightCharacters:maxLength];
     
     if (textView.text.length == 0) {
         objc_setAssociatedObject(self, &kHasPlaceholder, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -92,18 +81,23 @@ static const char kHasPlaceholder;
         objc_setAssociatedObject(self, &kHasPlaceholder, @(NO), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     [self setNeedsDisplay];
+    
+    NSInteger maxLength = [objc_getAssociatedObject(self, &kMaxInputLength) integerValue];
+    if (maxLength <= 0) return;
+    
+    [self limitHightCharacters:maxLength];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    if (self.avm_delegate && [self.avm_delegate respondsToSelector:_cmd]) {
-        [self.avm_delegate textViewDidBeginEditing:textView];
+    if (self.TT_delegate && [self.TT_delegate respondsToSelector:_cmd]) {
+        [self.TT_delegate textViewDidBeginEditing:textView];
     }
     [self setNeedsDisplay];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    if (self.avm_delegate && [self.avm_delegate respondsToSelector:_cmd]) {
-        [self.avm_delegate textViewDidEndEditing:textView];
+    if (self.TT_delegate && [self.TT_delegate respondsToSelector:_cmd]) {
+        [self.TT_delegate textViewDidEndEditing:textView];
     }
     [self setNeedsDisplay];
 }
@@ -118,13 +112,13 @@ static const char kHasPlaceholder;
         
         if (!position){//非高亮
             if (new.length > maxLength) {
-                self.text = [new substringToIndex:maxLength];
+                self.text = [new TT_limitStringWithMaxLength:maxLength];
             }
         }
         
     }else{//中文输入法以外
         if (new.length > maxLength) {
-            self.text = [new substringToIndex:maxLength];
+            self.text = [new TT_limitStringWithMaxLength:maxLength];
         }
     }
 }
@@ -138,14 +132,20 @@ static const char kHasPlaceholder;
     if (!hasPlaceholder) {
         return;
     }
-    if (!placeholder || [self.text isNotBlank]) {
+    if (!placeholder || placeholder.length <= 0) {
         return;
     }
     NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
     style.lineSpacing = 4;
     style.lineBreakMode = NSLineBreakByCharWrapping;
     CGFloat x = 5 + self.contentInset.left + self.textContainerInset.left;
-    [placeholder drawInRect:CGRectMake(x, self.textContainerInset.top+self.contentInset.top, rect.size.width - x * 2 , rect.size.height) withAttributes:@{NSFontAttributeName:self.font,NSForegroundColorAttributeName:kTextColor_9b9b9b,NSParagraphStyleAttributeName:style}];
+    [placeholder drawInRect:CGRectMake(x, self.textContainerInset.top+self.contentInset.top, rect.size.width - x * 2 , rect.size.height)
+             withAttributes:@{
+                              NSFontAttributeName:self.font,
+                              NSForegroundColorAttributeName:[[UIColor grayColor]colorWithAlphaComponent:0.7],
+                              NSParagraphStyleAttributeName:style
+                              
+                              }];
 }
 
 @end
