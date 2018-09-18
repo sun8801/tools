@@ -3,13 +3,14 @@
 //  AVM
 //
 //  Created by sunzongtang on 2017/9/1.
-//  Copyright © 2017年 WanYueLiang. All rights reserved.
+//  Copyright © 2017年 . All rights reserved.
 //
 
 #import "AVMWebView.h"
 #import <WebKit/WebKit.h>
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
+
 #define isCanWebKit NSClassFromString(@"WKWebView")
 
 #pragma mark - AVMWKWebView
@@ -77,11 +78,11 @@
 
 
 #pragma mark -初始化
-+(AVMWebView *)webViewWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration
++ (instancetype)webViewWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration
 {
     return [[self alloc] initWithFrame:frame configuration:configuration];
 }
--(instancetype)initWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration;
+- (instancetype)initWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -92,8 +93,18 @@
             if (configuration) {
                 WKWebViewConfiguration *webViewconfiguration = [[WKWebViewConfiguration alloc] init];
                 webViewconfiguration.allowsInlineMediaPlayback = configuration.allowsInlineMediaPlayback;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 webViewconfiguration.mediaPlaybackRequiresUserAction = configuration.mediaPlaybackRequiresUserAction;
                 webViewconfiguration.mediaPlaybackAllowsAirPlay = configuration.mediaPlaybackAllowsAirPlay;
+#pragma clang diagnostic pop
+                if (@available(iOS 10.0, *)) {
+                    webViewconfiguration.mediaTypesRequiringUserActionForPlayback = configuration.mediaPlaybackRequiresUserAction? WKAudiovisualMediaTypeAll: WKAudiovisualMediaTypeNone;
+                }
+                if (@available(iOS 9.0, *)) {
+                    webViewconfiguration.allowsAirPlayForMediaPlayback = configuration.mediaPlaybackAllowsAirPlay;
+                }
+                
                 webViewconfiguration.suppressesIncrementalRendering = configuration.suppressesIncrementalRendering;
                 WKUserContentController *wkUController = [[WKUserContentController alloc] init];
                 if (!configuration.scalesPageToFit) {
@@ -267,7 +278,7 @@
     if (_configuration.captureImage) {
         [self avm_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
             if (!error && imgs.length) {
-                _images = [imgs componentsSeparatedByString:@","];
+                self.images = [imgs componentsSeparatedByString:@","];
             }
         }];
     }
@@ -328,7 +339,7 @@
         [self avm_evaluateJavaScript:[AVMWebViewJS imgsElement] completionHandler:nil];
         [self avm_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
             if (!error && imgs.length) {
-                _images = [imgs componentsSeparatedByString:@","];
+                self.images = [imgs componentsSeparatedByString:@","];
             }
         }];
     }
@@ -458,7 +469,9 @@
 }
 -(void)dealloc
 {
-    kNSLog_dealloc_class;
+#ifdef DEBUG
+    NSLog(@">>>dealloc>>>>>:%@",NSStringFromClass(self.class));
+#endif
     if (_webView) {
         [self destory];
     }

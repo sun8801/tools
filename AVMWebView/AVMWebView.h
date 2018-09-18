@@ -3,10 +3,11 @@
 //  AVM
 //
 //  Created by sunzongtang on 2017/9/1.
-//  Copyright © 2017年 WanYueLiang. All rights reserved.
+//  Copyright © 2017年. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+
 typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
     AVMWebViewNavigationLinkClicked,
     AVMWebViewNavigationFormSubmitted,
@@ -15,8 +16,9 @@ typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
     AVMWebViewNavigationResubmitted,
     AVMWebViewNavigationOther = -1
 };
-@class AVMWebView;
+
 @protocol AVMWebViewProtocol <NSObject>
+
 @optional
 @property (nonatomic, readonly, strong) UIScrollView *scrollView;
 @property (nonatomic, readonly, getter=canGoBack) BOOL canGoBack;
@@ -36,14 +38,17 @@ typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
 - (void)goBack;
 - (void)goForward;
 - (void)avm_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id result, NSError* error))completionHandler;
+
 @end
 
 @protocol AVMWebViewDelegate <NSObject>
+
 @optional
 - (BOOL)avm_webView:(id<AVMWebViewProtocol>)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(AVMWebViewNavigationType)navigationType;
 - (void)avm_webViewDidStartLoad:(id<AVMWebViewProtocol>)webView;
 - (void)avm_webViewDidFinishLoad:(id<AVMWebViewProtocol>)webView;
 - (void)avm_webView:(id<AVMWebViewProtocol>)webView didFailLoadWithError:(NSError *)error;
+
 @end
 
 @interface AVMWebViewConfiguration : NSObject
@@ -57,20 +62,24 @@ typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
 @property (nonatomic) BOOL scalesPageToFit;
 @property (nonatomic) BOOL loadingHUD;          //default NO ,if YES webview will add HUD when loading
 @property (nonatomic) BOOL captureImage;        //default NO ,if YES webview will capture all image in content;
+
 @end
 
 @interface AVMWebView : UIView <AVMWebViewProtocol>
-+(AVMWebView *)webViewWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration;
+
+- (instancetype)initWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+
++ (instancetype)webViewWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration;
+
 @property (nonatomic,weak) id<AVMWebViewDelegate> delegate;
 
 //当时UIWebView的时候，主动销毁
 - (void)destory;
 
 //--不可使用--//
++ (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (void)setFrame:(CGRect)frame NS_UNAVAILABLE;
-- (void)setBounds:(CGRect)bounds NS_UNAVAILABLE;
 
 @end
