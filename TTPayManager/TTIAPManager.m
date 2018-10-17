@@ -25,13 +25,15 @@ static NSString * const kTTReceiptKey     = @"TTReceiptKey";
 @property (nonatomic, copy) NSString *productId; //商品ID
 @property (nonatomic, copy) NSString *orderId;   //订单Id
 
-@property (nonatomic, strong) NSLock *lock;
+@property (nonatomic, strong) NSMutableSet *orderRequestSet; //订单请求-去重
+@property (nonatomic, strong) NSMutableDictionary *severErrorDict; // 服务端错误引起的错误，
 
 @end
 
 @implementation TTIAPManager {
     BOOL _hasStarted;
     dispatch_queue_t _IAP_Queue;
+    dispatch_queue_t _IAP_Deal_Queue;
 }
 
 #pragma mark - singleton
@@ -48,9 +50,9 @@ static NSString * const kTTReceiptKey     = @"TTReceiptKey";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _IAPManager      = [super init];
-        _IAPManager.lock = [[NSLock alloc] init];
         _IAPManager->_hasStarted = NO;
         _IAPManager->_IAP_Queue  = dispatch_queue_create("tt.iap.manager.pay.queue", DISPATCH_QUEUE_SERIAL);
+        _IAPManager->_IAP_Deal_Queue = dispatch_queue_create("tt.iap.manager.pay..deal.queue", DISPATCH_QUEUE_SERIAL);
     });
     return _IAPManager;
 }
@@ -71,12 +73,12 @@ static TTIAPManager *_IAPManager;
 }
 
 - (void)startManager {
-    @synchronized (self) {
-        if (_hasStarted) {
+    dispatch_async(_IAP_Queue, ^{
+        if (self->_hasStarted) {
             return;
         }
-        _hasStarted = YES;
-     
+        self->_hasStarted = YES;
+        
         self.goodsRequestFinished = YES;
         
         /***
@@ -96,17 +98,17 @@ static TTIAPManager *_IAPManager;
          在程序启动时，检测本地是否有receipt文件，有的话，去二次验证。
          */
         [self checkIAPReceiptFiles];
-    }
+    });
 }
 
 - (void)stopManager {
-    @synchronized (self) {
-        if (!_hasStarted) {
+    dispatch_async(_IAP_Queue, ^{
+        if (!self->_hasStarted) {
             return;
         }
-        _hasStarted = NO;
+        self->_hasStarted = NO;
         [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
-    }
+    });
 }
 
 - (void)buyGoodsWithProductId:(NSString *)productId orderId:(NSString *)orderId{
@@ -141,6 +143,12 @@ static TTIAPManager *_IAPManager;
         [productRequest start];
         
         NSLog(@"%@商品正在请求中",productId);
+    });
+}
+
+- (void)uploadReceipts {
+    dispatch_async(_IAP_Queue, ^{
+        [self checkIAPReceiptFiles];
     });
 }
 
@@ -265,12 +273,15 @@ static TTIAPManager *_IAPManager;
                                  };
     self.orderId = nil;
     self.productId = nil;
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *receipts = [NSMutableArray arrayWithArray:[userDefaults objectForKey:kTTReceiptKey]];
-    [receipts addObject:receiptDic];
     
-    [userDefaults setObject:receipts forKey:kTTReceiptKey];
-    [userDefaults synchronize];
+    dispatch_sync(_IAP_Deal_Queue, ^{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSMutableArray *receipts = [NSMutableArray arrayWithArray:[userDefaults objectForKey:kTTReceiptKey]];
+        [receipts addObject:receiptDic];
+        
+        [userDefaults setObject:receipts forKey:kTTReceiptKey];
+        [userDefaults synchronize];
+    });
 }
 
 
@@ -278,9 +289,16 @@ static TTIAPManager *_IAPManager;
 
 #pragma mark 将存储到本地的IAP文件发送给服务端 验证receipt失败,App启动后再次验证
 - (void)checkIAPReceiptFiles{
-    
-    NSArray *receipts = [[NSUserDefaults standardUserDefaults] objectForKey:kTTReceiptKey];
+    __block NSArray *receipts;
+    dispatch_sync(_IAP_Deal_Queue, ^{
+        receipts = [[NSUserDefaults standardUserDefaults] objectForKey:kTTReceiptKey];
+    });
     for (NSDictionary *receiptDict in receipts) {
+        NSString *orderId = receiptDict[TTIAPOrderIdKey]? : @"";
+        if ([self.orderRequestSet containsObject:orderId]) {
+            break;
+        }
+        [self.orderRequestSet addObject:orderId];
         [self sendReceiptToAPPServer:receiptDict];
     }
 }
@@ -293,56 +311,79 @@ static TTIAPManager *_IAPManager;
     // FIXME: 设置网络请求 发送交易凭证给服务端
     /**
      1、如果请求成功 调用
-        {
-            [weakSelf requestResultCode:TTIAPCodeTypeTransactionSucceed error:@"交易成功"];
-            [weakSelf removeReceipt:receiptDict];
-        }
      2、如果是服务器错误（服务出错） 需重新发送
-        {
-            [weakSelf sendReceiptToAPPServer:receiptDict];
-        }
      3、如果校验失败 直接删除小票
-        {
-            [weakSelf requestResultCode:TTIAPCodeTypeBuyFailed error:msg];
-            [weakSelf removeReceipt:receiptDict];
-        }
      4、网络问题，直接弹出
-        {
-            [weakSelf requestResultCode:TTIAPCodeTypeNetworkError error:@"无网络"];
-        }
      */
     __weak typeof(self) weakSelf = self;
+    dispatch_block_t successBlock = ^() { // 成功
+        [weakSelf requestResultCode:TTIAPCodeTypeTransactionSucceed error:@"交易成功"];
+        [weakSelf removeReceipt:receiptDict];
+    };
+    dispatch_block_t severFailBlock = ^() { // 如果是服务器错误（服务出错） 需重新发送 3次
+        NSString *orderId = receiptDict[TTIAPOrderIdKey]? : @"";
+        NSInteger count = [self.severErrorDict[orderId] integerValue];
+        count ++;
+        if (count >= 3) {
+            [weakSelf.orderRequestSet removeObject:orderId];
+            return ;
+        }
+        self.severErrorDict[orderId] = @(count);
+        [weakSelf sendReceiptToAPPServer:receiptDict];
+    };
+    void (^ responseFailBlock)(NSString *msg) = ^(NSString *msg) { //如果校验失败 直接删除小票
+        [weakSelf requestResultCode:TTIAPCodeTypeBuyFailed error:msg];
+        [weakSelf removeReceipt:receiptDict];
+    };
+    dispatch_block_t networkErrorBlock = ^() { // 网络问题，直接弹出
+        [weakSelf requestResultCode:TTIAPCodeTypeNetworkError error:@"无网络"];
+        [weakSelf.orderRequestSet removeObject:receiptDict[TTIAPOrderIdKey]];
+    };
+    
 //    [TTRequestManager pay_appstorePayCheckParamDict:receiptDict showHUDInView:nil success:^(NSDictionary *resultDict, NSInteger code, NSString *msg) {
 //        if (code == 1) {
-//            [weakSelf requestResultCode:TTIAPCodeTypeTransactionSucceed error:@"交易成功"];
-//            [weakSelf removeReceipt:receiptDict];
+//             successBlock();
 //        }else if (code == 2){//服务器错误，需要重新请求
-//            [weakSelf sendReceiptToAPPServer:receiptDict];
+//              severFailBlock();
 //        }else {
-//           [weakSelf requestResultCode:TTIAPCodeTypeBuyFailed error:msg];
-//            [weakSelf removeReceipt:receiptDict];
+//           responseFailBlock();
 //        }
 //    } failure:^(NSError *error) {
-//       [weakSelf requestResultCode:TTIAPCodeTypeNetworkError error:@"无网络"];
+//       networkErrorBlock();
 //    }];
 }
 
 #pragma mark -删除本地receipt
 - (void)removeReceipt:(NSDictionary *)receiptDict {
-    [self.lock lock];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *orderId = receiptDict[TTIAPOrderIdKey];
-    NSMutableArray *receipts = [NSMutableArray arrayWithArray: [userDefaults objectForKey:kTTReceiptKey]];
-    [receipts enumerateObjectsUsingBlock:^(NSDictionary *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *orderId_t = obj[TTIAPOrderIdKey];
-        if ([orderId isEqualToString:orderId_t]) {
-            [receipts removeObjectAtIndex:idx];
-            *stop = YES;
-        }
-    }];
-    [userDefaults setObject:receipts forKey:kTTReceiptKey];
-    [userDefaults synchronize];
-    [self.lock unlock];
+    dispatch_sync(_IAP_Deal_Queue, ^{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *orderId = receiptDict[TTIAPOrderIdKey];
+        NSMutableArray *receipts = [NSMutableArray arrayWithArray: [userDefaults objectForKey:kTTReceiptKey]];
+        [receipts enumerateObjectsUsingBlock:^(NSDictionary *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *orderId_t = obj[TTIAPOrderIdKey];
+            if ([orderId isEqualToString:orderId_t]) {
+                [receipts removeObjectAtIndex:idx];
+                *stop = YES;
+            }
+        }];
+        [userDefaults setObject:receipts forKey:kTTReceiptKey];
+        [userDefaults synchronize];
+    });
+}
+
+#pragma mark - getter
+- (NSMutableSet *)orderRequestSet {
+    if (!_orderRequestSet) {
+        _orderRequestSet = [NSMutableSet set];
+    }
+    return _orderRequestSet;
+}
+
+- (NSMutableDictionary *)severErrorDict {
+    if (!_severErrorDict) {
+        _severErrorDict = [NSMutableDictionary dictionary];
+    }
+    return _severErrorDict;
 }
 
 #pragma mark -错误信息反馈

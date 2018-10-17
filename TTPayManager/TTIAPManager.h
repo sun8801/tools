@@ -21,7 +21,6 @@
     .m
  
     a、 修改-(void)saveReceipt:(SKPaymentTransaction *)transaction
-        line - 258
  
     // FIXME: 设置交易凭证存在方式
     NSDictionary *receiptDic = @{
@@ -32,7 +31,6 @@
     };
  
     b、添加交易凭证上传服务端接口 - (void)sendReceiptToAPPServer:(NSDictionary *)receiptDict
-        line - 289
  
  3、在需要内购的地方实现
  - (void)buy {
@@ -100,5 +98,10 @@ typedef NS_ENUM(NSInteger, TTIAPCodeType) {
  @param orderId   订单编号
  */
 - (void)buyGoodsWithProductId:(NSString *)productId orderId:(NSString *)orderId;
+
+/**
+ 主动上传交易凭证， 基本不需要手动触发
+ */
+- (void)uploadReceipts;
 
 @end
