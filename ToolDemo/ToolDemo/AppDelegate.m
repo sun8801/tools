@@ -20,6 +20,7 @@
     // Override point for customization after application launch.
     
     [[TTIAPManager sharedIAPManager] startManager];
+    [TTIAPManager updateIAPEnvironmentIsSanbox:YES];
     
     return YES;
 }

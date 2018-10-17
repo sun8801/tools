@@ -68,7 +68,7 @@ static TTIAPManager *_IAPManager;
     return _IAPManager;
 }
 
-+ (void)updateIAPEnvironment:(BOOL)isSanbox {
++ (void)updateIAPEnvironmentIsSanbox:(BOOL)isSanbox {
     TTIAPEnvironment = isSanbox? 1: 0;
 }
 

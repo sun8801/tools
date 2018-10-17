@@ -13,6 +13,8 @@
  // Override point for customization after application launch.
  
     [[TTIAPManager sharedIAPManager] startManager];
+ //设置开发环境
+    [TTIAPManager updateIAPEnvironmentIsSanbox:YES];
  
     return YES;
  }
@@ -77,7 +79,7 @@ typedef NS_ENUM(NSInteger, TTIAPCodeType) {
 
  @param isSanbox 是否是开发环境  初始时调用
  */
-+ (void)updateIAPEnvironment:(BOOL) isSanbox;
++ (void)updateIAPEnvironmentIsSanbox:(BOOL) isSanbox;
 
 @property (nonatomic, weak) id<TTIAPTransactionResultDelegate> delegate;
 
