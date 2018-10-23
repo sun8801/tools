@@ -52,7 +52,9 @@ static NSString * const kTTReceiptKey     = @"TTReceiptKey";
         _IAPManager      = [super init];
         _IAPManager->_hasStarted = NO;
         _IAPManager->_IAP_Queue  = dispatch_queue_create("tt.iap.manager.pay.queue", DISPATCH_QUEUE_SERIAL);
-        _IAPManager->_IAP_Deal_Queue = dispatch_queue_create("tt.iap.manager.pay..deal.queue", DISPATCH_QUEUE_SERIAL);
+        _IAPManager->_IAP_Deal_Queue = dispatch_queue_create("tt.iap.manager.pay.deal.queue", DISPATCH_QUEUE_SERIAL);
+        _IAPManager.orderRequestSet = [NSMutableSet set];
+        _IAPManager.severErrorDict  = [NSMutableDictionary dictionary];
     });
     return _IAPManager;
 }
@@ -184,11 +186,12 @@ static TTIAPManager *_IAPManager;
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchasing://正在交易
+            {
                 [self requestResultCode:TTIAPCodeTypePurchasing error:@"正在交易中..."];
+            }
                 break;
-                
             case SKPaymentTransactionStatePurchased://交易完成
-                
+            {
                 [self getReceipt]; //获取交易成功后的购买凭证
                 
                 [self saveReceipt:transaction]; //存储交易凭证
@@ -197,22 +200,18 @@ static TTIAPManager *_IAPManager;
                 
                 [self completeTransaction:transaction];
                 
-                break;
-                
+            }break;
             case SKPaymentTransactionStateFailed://交易失败
-                
+            {
                 [self failedTransaction:transaction];
-                
-                break;
-                
+            }break;
             case SKPaymentTransactionStateRestored://已经购买过该商品
-                
+            {
                 [self restoreTransaction:transaction];
-                
-                break;
-                
+            }break;
             default:
-                
+                // ...
+                // 在购买队列中...
                 break;
         }
     }
@@ -222,7 +221,6 @@ static TTIAPManager *_IAPManager;
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
     self.goodsRequestFinished = YES; //成功，请求完成
 }
-
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
     
@@ -296,7 +294,7 @@ static TTIAPManager *_IAPManager;
     for (NSDictionary *receiptDict in receipts) {
         NSString *orderId = receiptDict[TTIAPOrderIdKey]? : @"";
         if ([self.orderRequestSet containsObject:orderId]) {
-            break;
+            continue;
         }
         [self.orderRequestSet addObject:orderId];
         [self sendReceiptToAPPServer:receiptDict];
@@ -369,21 +367,6 @@ static TTIAPManager *_IAPManager;
         [userDefaults setObject:receipts forKey:kTTReceiptKey];
         [userDefaults synchronize];
     });
-}
-
-#pragma mark - getter
-- (NSMutableSet *)orderRequestSet {
-    if (!_orderRequestSet) {
-        _orderRequestSet = [NSMutableSet set];
-    }
-    return _orderRequestSet;
-}
-
-- (NSMutableDictionary *)severErrorDict {
-    if (!_severErrorDict) {
-        _severErrorDict = [NSMutableDictionary dictionary];
-    }
-    return _severErrorDict;
 }
 
 #pragma mark -错误信息反馈
