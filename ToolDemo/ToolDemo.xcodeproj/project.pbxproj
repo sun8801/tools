@@ -14,6 +14,7 @@
 		A42BA8172176D767003801DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42BA8152176D767003801DD /* LaunchScreen.storyboard */; };
 		A42BA81A2176D767003801DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8192176D767003801DD /* main.m */; };
 		A42BA8342176F607003801DD /* TTIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8322176F607003801DD /* TTIAPManager.m */; };
+		A42BA86521807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		A42BA8192176D767003801DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A42BA8302176F607003801DD /* TTIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTIAPManager.h; sourceTree = "<group>"; };
 		A42BA8322176F607003801DD /* TTIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTIAPManager.m; sourceTree = "<group>"; };
+		A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = D91DE108A3A6E088A54F16E62B4413D0.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		A42BA82E2176F607003801DD /* TTPayManager */ = {
 			isa = PBXGroup;
 			children = (
+				A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */,
 				A42BA8302176F607003801DD /* TTIAPManager.h */,
 				A42BA8322176F607003801DD /* TTIAPManager.m */,
 			);
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A42BA8172176D767003801DD /* LaunchScreen.storyboard in Resources */,
+				A42BA86521807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */,
 				A42BA8142176D767003801DD /* Assets.xcassets in Resources */,
 				A42BA8122176D765003801DD /* Main.storyboard in Resources */,
 			);
