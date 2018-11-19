@@ -15,6 +15,12 @@
 		A42BA81A2176D767003801DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8192176D767003801DD /* main.m */; };
 		A42BA8342176F607003801DD /* TTIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8322176F607003801DD /* TTIAPManager.m */; };
 		A42BA86521807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */; };
+		A4F35A2A21A27AB80048D341 /* UIViewController+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2121A27AB80048D341 /* UIViewController+HUD.m */; };
+		A4F35A2B21A27AB80048D341 /* NSString+TTLimitTextLength.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2221A27AB80048D341 /* NSString+TTLimitTextLength.m */; };
+		A4F35A2C21A27AB80048D341 /* UIView+AVMHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2621A27AB80048D341 /* UIView+AVMHUD.m */; };
+		A4F35A2D21A27AB80048D341 /* UITextView+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2821A27AB80048D341 /* UITextView+TTLimitInputCharacters.m */; };
+		A4F35A2E21A27AB80048D341 /* UITextField+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2921A27AB80048D341 /* UITextField+TTLimitInputCharacters.m */; };
+		A4F35A3121A27AE30048D341 /* UIImage+TTStretchBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A3021A27AE30048D341 /* UIImage+TTStretchBorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +37,18 @@
 		A42BA8302176F607003801DD /* TTIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTIAPManager.h; sourceTree = "<group>"; };
 		A42BA8322176F607003801DD /* TTIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTIAPManager.m; sourceTree = "<group>"; };
 		A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = D91DE108A3A6E088A54F16E62B4413D0.jpg; sourceTree = "<group>"; };
+		A4F35A2021A27AB80048D341 /* UIView+AVMHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AVMHUD.h"; sourceTree = "<group>"; };
+		A4F35A2121A27AB80048D341 /* UIViewController+HUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HUD.m"; sourceTree = "<group>"; };
+		A4F35A2221A27AB80048D341 /* NSString+TTLimitTextLength.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TTLimitTextLength.m"; sourceTree = "<group>"; };
+		A4F35A2321A27AB80048D341 /* UITextField+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
+		A4F35A2421A27AB80048D341 /* UITextView+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
+		A4F35A2521A27AB80048D341 /* UIViewController+HUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HUD.h"; sourceTree = "<group>"; };
+		A4F35A2621A27AB80048D341 /* UIView+AVMHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AVMHUD.m"; sourceTree = "<group>"; };
+		A4F35A2721A27AB80048D341 /* NSString+TTLimitTextLength.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TTLimitTextLength.h"; sourceTree = "<group>"; };
+		A4F35A2821A27AB80048D341 /* UITextView+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
+		A4F35A2921A27AB80048D341 /* UITextField+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
+		A4F35A2F21A27AE30048D341 /* UIImage+TTStretchBorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+TTStretchBorder.h"; sourceTree = "<group>"; };
+		A4F35A3021A27AE30048D341 /* UIImage+TTStretchBorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TTStretchBorder.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +81,7 @@
 		A42BA8092176D765003801DD /* ToolDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A4F35A1F21A27AB80048D341 /* Category */,
 				A42BA82E2176F607003801DD /* TTPayManager */,
 				A42BA80A2176D765003801DD /* AppDelegate.h */,
 				A42BA80B2176D765003801DD /* AppDelegate.m */,
@@ -86,6 +105,26 @@
 			);
 			name = TTPayManager;
 			path = ../../TTPayManager;
+			sourceTree = "<group>";
+		};
+		A4F35A1F21A27AB80048D341 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				A4F35A2021A27AB80048D341 /* UIView+AVMHUD.h */,
+				A4F35A2121A27AB80048D341 /* UIViewController+HUD.m */,
+				A4F35A2221A27AB80048D341 /* NSString+TTLimitTextLength.m */,
+				A4F35A2321A27AB80048D341 /* UITextField+TTLimitInputCharacters.h */,
+				A4F35A2421A27AB80048D341 /* UITextView+TTLimitInputCharacters.h */,
+				A4F35A2521A27AB80048D341 /* UIViewController+HUD.h */,
+				A4F35A2621A27AB80048D341 /* UIView+AVMHUD.m */,
+				A4F35A2721A27AB80048D341 /* NSString+TTLimitTextLength.h */,
+				A4F35A2821A27AB80048D341 /* UITextView+TTLimitInputCharacters.m */,
+				A4F35A2921A27AB80048D341 /* UITextField+TTLimitInputCharacters.m */,
+				A4F35A2F21A27AE30048D341 /* UIImage+TTStretchBorder.h */,
+				A4F35A3021A27AE30048D341 /* UIImage+TTStretchBorder.m */,
+			);
+			name = Category;
+			path = ../../Category;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,9 +198,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4F35A2E21A27AB80048D341 /* UITextField+TTLimitInputCharacters.m in Sources */,
+				A4F35A2A21A27AB80048D341 /* UIViewController+HUD.m in Sources */,
 				A42BA80F2176D765003801DD /* ViewController.m in Sources */,
 				A42BA8342176F607003801DD /* TTIAPManager.m in Sources */,
+				A4F35A2C21A27AB80048D341 /* UIView+AVMHUD.m in Sources */,
+				A4F35A3121A27AE30048D341 /* UIImage+TTStretchBorder.m in Sources */,
 				A42BA81A2176D767003801DD /* main.m in Sources */,
+				A4F35A2B21A27AB80048D341 /* NSString+TTLimitTextLength.m in Sources */,
+				A4F35A2D21A27AB80048D341 /* UITextView+TTLimitInputCharacters.m in Sources */,
 				A42BA80C2176D765003801DD /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

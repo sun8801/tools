@@ -31,6 +31,14 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
     return objc_getAssociatedObject(self, @selector(setParallaxColor:));
 }
 
+- (void)setNavigationBarBackgroundColor:(UIColor *)navigationBarBackgroundColor {
+    objc_setAssociatedObject(self, _cmd, navigationBarBackgroundColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIColor *)navigationBarBackgroundColor {
+    return objc_getAssociatedObject(self, @selector(setNavigationBarBackgroundColor:));
+}
+
 - (void)setPopedViewController:(UIViewController *)popedViewController {
     objc_setAssociatedObject(self, _cmd, popedViewController, OBJC_ASSOCIATION_ASSIGN);
 }
