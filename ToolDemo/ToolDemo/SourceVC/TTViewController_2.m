@@ -27,8 +27,15 @@
     self.parallaxColor = UIColor.orangeColor;
     
 //    self.TT_navigationBarAlpha = 0.2;
-//    self.TT_navigationBarBackgroundColor = UIColor.blueColor;
+    self.TT_navigationBarBackgroundColor = UIColor.blueColor;
 }
 
+- (IBAction)poped:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 @end
