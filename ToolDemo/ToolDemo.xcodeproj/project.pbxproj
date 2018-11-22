@@ -15,12 +15,16 @@
 		A42BA81A2176D767003801DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8192176D767003801DD /* main.m */; };
 		A42BA8342176F607003801DD /* TTIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8322176F607003801DD /* TTIAPManager.m */; };
 		A42BA86521807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */; };
-		A4F35A2A21A27AB80048D341 /* UIViewController+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2121A27AB80048D341 /* UIViewController+HUD.m */; };
-		A4F35A2B21A27AB80048D341 /* NSString+TTLimitTextLength.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2221A27AB80048D341 /* NSString+TTLimitTextLength.m */; };
-		A4F35A2C21A27AB80048D341 /* UIView+AVMHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2621A27AB80048D341 /* UIView+AVMHUD.m */; };
-		A4F35A2D21A27AB80048D341 /* UITextView+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2821A27AB80048D341 /* UITextView+TTLimitInputCharacters.m */; };
-		A4F35A2E21A27AB80048D341 /* UITextField+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A2921A27AB80048D341 /* UITextField+TTLimitInputCharacters.m */; };
-		A4F35A3121A27AE30048D341 /* UIImage+TTStretchBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A3021A27AE30048D341 /* UIImage+TTStretchBorder.m */; };
+		A4F35A8E21A558AE0048D341 /* NSString+TTLimitTextLength.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8121A558AE0048D341 /* NSString+TTLimitTextLength.m */; };
+		A4F35A9021A558AE0048D341 /* UIImage+TTStretchBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8821A558AE0048D341 /* UIImage+TTStretchBorder.m */; };
+		A4F35A9121A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8A21A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.m */; };
+		A4F35A9221A558AE0048D341 /* UITextView+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8B21A558AE0048D341 /* UITextView+TTLimitInputCharacters.m */; };
+		A4F35A9321A558AE0048D341 /* UITextField+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8C21A558AE0048D341 /* UITextField+TTLimitInputCharacters.m */; };
+		A4F35A9721A558B70048D341 /* UINavigationController+TTParallaxDimming.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A9621A558B70048D341 /* UINavigationController+TTParallaxDimming.m */; };
+		A4F35A9B21A55A140048D341 /* TTViewController_1.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A9A21A55A140048D341 /* TTViewController_1.m */; };
+		A4F35A9E21A55A220048D341 /* TTViewController_2.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A9D21A55A220048D341 /* TTViewController_2.m */; };
+		A4F35AA121A55A2B0048D341 /* TTViewController_3.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35AA021A55A2B0048D341 /* TTViewController_3.m */; };
+		A4F35AA421A55A370048D341 /* TTViewController_4.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35AA321A55A370048D341 /* TTViewController_4.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,18 +41,26 @@
 		A42BA8302176F607003801DD /* TTIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTIAPManager.h; sourceTree = "<group>"; };
 		A42BA8322176F607003801DD /* TTIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTIAPManager.m; sourceTree = "<group>"; };
 		A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = D91DE108A3A6E088A54F16E62B4413D0.jpg; sourceTree = "<group>"; };
-		A4F35A2021A27AB80048D341 /* UIView+AVMHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AVMHUD.h"; sourceTree = "<group>"; };
-		A4F35A2121A27AB80048D341 /* UIViewController+HUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HUD.m"; sourceTree = "<group>"; };
-		A4F35A2221A27AB80048D341 /* NSString+TTLimitTextLength.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TTLimitTextLength.m"; sourceTree = "<group>"; };
-		A4F35A2321A27AB80048D341 /* UITextField+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
-		A4F35A2421A27AB80048D341 /* UITextView+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
-		A4F35A2521A27AB80048D341 /* UIViewController+HUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HUD.h"; sourceTree = "<group>"; };
-		A4F35A2621A27AB80048D341 /* UIView+AVMHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AVMHUD.m"; sourceTree = "<group>"; };
-		A4F35A2721A27AB80048D341 /* NSString+TTLimitTextLength.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TTLimitTextLength.h"; sourceTree = "<group>"; };
-		A4F35A2821A27AB80048D341 /* UITextView+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
-		A4F35A2921A27AB80048D341 /* UITextField+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
-		A4F35A2F21A27AE30048D341 /* UIImage+TTStretchBorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+TTStretchBorder.h"; sourceTree = "<group>"; };
-		A4F35A3021A27AE30048D341 /* UIImage+TTStretchBorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TTStretchBorder.m"; sourceTree = "<group>"; };
+		A4F35A8121A558AE0048D341 /* NSString+TTLimitTextLength.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TTLimitTextLength.m"; sourceTree = "<group>"; };
+		A4F35A8221A558AE0048D341 /* UIImage+TTStretchBorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TTStretchBorder.h"; sourceTree = "<group>"; };
+		A4F35A8321A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TTExtensionNavigationBar.h"; sourceTree = "<group>"; };
+		A4F35A8421A558AE0048D341 /* UITextField+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
+		A4F35A8521A558AE0048D341 /* UITextView+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
+		A4F35A8821A558AE0048D341 /* UIImage+TTStretchBorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TTStretchBorder.m"; sourceTree = "<group>"; };
+		A4F35A8921A558AE0048D341 /* NSString+TTLimitTextLength.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TTLimitTextLength.h"; sourceTree = "<group>"; };
+		A4F35A8A21A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TTExtensionNavigationBar.m"; sourceTree = "<group>"; };
+		A4F35A8B21A558AE0048D341 /* UITextView+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
+		A4F35A8C21A558AE0048D341 /* UITextField+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
+		A4F35A9521A558B70048D341 /* UINavigationController+TTParallaxDimming.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+TTParallaxDimming.h"; sourceTree = "<group>"; };
+		A4F35A9621A558B70048D341 /* UINavigationController+TTParallaxDimming.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+TTParallaxDimming.m"; sourceTree = "<group>"; };
+		A4F35A9921A55A140048D341 /* TTViewController_1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTViewController_1.h; sourceTree = "<group>"; };
+		A4F35A9A21A55A140048D341 /* TTViewController_1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTViewController_1.m; sourceTree = "<group>"; };
+		A4F35A9C21A55A220048D341 /* TTViewController_2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTViewController_2.h; sourceTree = "<group>"; };
+		A4F35A9D21A55A220048D341 /* TTViewController_2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTViewController_2.m; sourceTree = "<group>"; };
+		A4F35A9F21A55A2B0048D341 /* TTViewController_3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTViewController_3.h; sourceTree = "<group>"; };
+		A4F35AA021A55A2B0048D341 /* TTViewController_3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTViewController_3.m; sourceTree = "<group>"; };
+		A4F35AA221A55A370048D341 /* TTViewController_4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTViewController_4.h; sourceTree = "<group>"; };
+		A4F35AA321A55A370048D341 /* TTViewController_4.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTViewController_4.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,12 +93,14 @@
 		A42BA8092176D765003801DD /* ToolDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A4F35A1F21A27AB80048D341 /* Category */,
+				A4F35A9421A558B70048D341 /* UINavigationParallaxDimming */,
+				A4F35A7E21A558AE0048D341 /* Category */,
 				A42BA82E2176F607003801DD /* TTPayManager */,
 				A42BA80A2176D765003801DD /* AppDelegate.h */,
 				A42BA80B2176D765003801DD /* AppDelegate.m */,
 				A42BA80D2176D765003801DD /* ViewController.h */,
 				A42BA80E2176D765003801DD /* ViewController.m */,
+				A4F35A9821A559EC0048D341 /* SourceVC */,
 				A42BA8102176D765003801DD /* Main.storyboard */,
 				A42BA8132176D767003801DD /* Assets.xcassets */,
 				A42BA8152176D767003801DD /* LaunchScreen.storyboard */,
@@ -107,24 +121,47 @@
 			path = ../../TTPayManager;
 			sourceTree = "<group>";
 		};
-		A4F35A1F21A27AB80048D341 /* Category */ = {
+		A4F35A7E21A558AE0048D341 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				A4F35A2021A27AB80048D341 /* UIView+AVMHUD.h */,
-				A4F35A2121A27AB80048D341 /* UIViewController+HUD.m */,
-				A4F35A2221A27AB80048D341 /* NSString+TTLimitTextLength.m */,
-				A4F35A2321A27AB80048D341 /* UITextField+TTLimitInputCharacters.h */,
-				A4F35A2421A27AB80048D341 /* UITextView+TTLimitInputCharacters.h */,
-				A4F35A2521A27AB80048D341 /* UIViewController+HUD.h */,
-				A4F35A2621A27AB80048D341 /* UIView+AVMHUD.m */,
-				A4F35A2721A27AB80048D341 /* NSString+TTLimitTextLength.h */,
-				A4F35A2821A27AB80048D341 /* UITextView+TTLimitInputCharacters.m */,
-				A4F35A2921A27AB80048D341 /* UITextField+TTLimitInputCharacters.m */,
-				A4F35A2F21A27AE30048D341 /* UIImage+TTStretchBorder.h */,
-				A4F35A3021A27AE30048D341 /* UIImage+TTStretchBorder.m */,
+				A4F35A8921A558AE0048D341 /* NSString+TTLimitTextLength.h */,
+				A4F35A8121A558AE0048D341 /* NSString+TTLimitTextLength.m */,
+				A4F35A8221A558AE0048D341 /* UIImage+TTStretchBorder.h */,
+				A4F35A8821A558AE0048D341 /* UIImage+TTStretchBorder.m */,
+				A4F35A8421A558AE0048D341 /* UITextField+TTLimitInputCharacters.h */,
+				A4F35A8C21A558AE0048D341 /* UITextField+TTLimitInputCharacters.m */,
+				A4F35A8521A558AE0048D341 /* UITextView+TTLimitInputCharacters.h */,
+				A4F35A8B21A558AE0048D341 /* UITextView+TTLimitInputCharacters.m */,
+				A4F35A8321A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.h */,
+				A4F35A8A21A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.m */,
 			);
 			name = Category;
 			path = ../../Category;
+			sourceTree = "<group>";
+		};
+		A4F35A9421A558B70048D341 /* UINavigationParallaxDimming */ = {
+			isa = PBXGroup;
+			children = (
+				A4F35A9521A558B70048D341 /* UINavigationController+TTParallaxDimming.h */,
+				A4F35A9621A558B70048D341 /* UINavigationController+TTParallaxDimming.m */,
+			);
+			name = UINavigationParallaxDimming;
+			path = ../../UINavigationParallaxDimming;
+			sourceTree = "<group>";
+		};
+		A4F35A9821A559EC0048D341 /* SourceVC */ = {
+			isa = PBXGroup;
+			children = (
+				A4F35A9921A55A140048D341 /* TTViewController_1.h */,
+				A4F35A9A21A55A140048D341 /* TTViewController_1.m */,
+				A4F35A9C21A55A220048D341 /* TTViewController_2.h */,
+				A4F35A9D21A55A220048D341 /* TTViewController_2.m */,
+				A4F35A9F21A55A2B0048D341 /* TTViewController_3.h */,
+				A4F35AA021A55A2B0048D341 /* TTViewController_3.m */,
+				A4F35AA221A55A370048D341 /* TTViewController_4.h */,
+				A4F35AA321A55A370048D341 /* TTViewController_4.m */,
+			);
+			path = SourceVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,6 +190,7 @@
 		A42BA7FF2176D765003801DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = TT;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = MOMO;
 				TargetAttributes = {
@@ -198,16 +236,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4F35A2E21A27AB80048D341 /* UITextField+TTLimitInputCharacters.m in Sources */,
-				A4F35A2A21A27AB80048D341 /* UIViewController+HUD.m in Sources */,
+				A4F35A9321A558AE0048D341 /* UITextField+TTLimitInputCharacters.m in Sources */,
 				A42BA80F2176D765003801DD /* ViewController.m in Sources */,
+				A4F35A9E21A55A220048D341 /* TTViewController_2.m in Sources */,
 				A42BA8342176F607003801DD /* TTIAPManager.m in Sources */,
-				A4F35A2C21A27AB80048D341 /* UIView+AVMHUD.m in Sources */,
-				A4F35A3121A27AE30048D341 /* UIImage+TTStretchBorder.m in Sources */,
+				A4F35A9021A558AE0048D341 /* UIImage+TTStretchBorder.m in Sources */,
+				A4F35A9221A558AE0048D341 /* UITextView+TTLimitInputCharacters.m in Sources */,
 				A42BA81A2176D767003801DD /* main.m in Sources */,
-				A4F35A2B21A27AB80048D341 /* NSString+TTLimitTextLength.m in Sources */,
-				A4F35A2D21A27AB80048D341 /* UITextView+TTLimitInputCharacters.m in Sources */,
+				A4F35AA421A55A370048D341 /* TTViewController_4.m in Sources */,
+				A4F35A9721A558B70048D341 /* UINavigationController+TTParallaxDimming.m in Sources */,
+				A4F35A8E21A558AE0048D341 /* NSString+TTLimitTextLength.m in Sources */,
+				A4F35A9121A558AE0048D341 /* UIViewController+TTExtensionNavigationBar.m in Sources */,
+				A4F35A9B21A55A140048D341 /* TTViewController_1.m in Sources */,
 				A42BA80C2176D765003801DD /* AppDelegate.m in Sources */,
+				A4F35AA121A55A2B0048D341 /* TTViewController_3.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +393,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ToolDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -367,6 +410,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ToolDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

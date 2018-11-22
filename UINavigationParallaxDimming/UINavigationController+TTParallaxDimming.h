@@ -19,11 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor *parallaxColor;
 
-/**
- 设置当前控制器导航条颜色
- */
-@property (nonatomic, strong) UIColor *navigationBarBackgroundColor;
-
 @end
 
 @interface UINavigationController (TTParallaxDimming)

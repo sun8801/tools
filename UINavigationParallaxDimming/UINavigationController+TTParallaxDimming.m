@@ -31,14 +31,6 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
     return objc_getAssociatedObject(self, @selector(setParallaxColor:));
 }
 
-- (void)setNavigationBarBackgroundColor:(UIColor *)navigationBarBackgroundColor {
-    objc_setAssociatedObject(self, _cmd, navigationBarBackgroundColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (UIColor *)navigationBarBackgroundColor {
-    return objc_getAssociatedObject(self, @selector(setNavigationBarBackgroundColor:));
-}
-
 - (void)setPopedViewController:(UIViewController *)popedViewController {
     objc_setAssociatedObject(self, _cmd, popedViewController, OBJC_ASSOCIATION_ASSIGN);
 }
@@ -54,11 +46,20 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        TT_nav_parallax_swizzleInstanceSelector(self, @selector(pushViewController:animated:), @selector(TT_parallax_pushViewController:animated:));
         TT_nav_parallax_swizzleInstanceSelector(self, @selector(popViewControllerAnimated:), @selector(TT_parallax_popViewControllerAnimated:));
     });
 }
 
 #pragma mark - swizzle
+
+- (void)TT_parallax_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    UIViewController *topVC = self.topViewController;
+    
+    [self TT_parallax_pushViewController:viewController animated:animated];
+    
+    [self.topViewController setPopedViewController:topVC];
+}
 
 - (void)TT_parallax_popViewControllerAnimated:(BOOL)animated {
     UIViewController *topVC = self.topViewController;

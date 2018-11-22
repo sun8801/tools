@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "TTIAPManager.h"
+#import "UINavigationController+TTParallaxDimming.h"
 
 @interface ViewController () <TTIAPTransactionResultDelegate>
 
@@ -22,6 +23,10 @@
     NSLog(@"%@", [TTIAPManager sharedIAPManager]);
     NSLog(@"%@", [[TTIAPManager alloc] init]);
     NSLog(@"%@", [TTIAPManager new]);
+    
+    self.navigationController.parallaxColor = UIColor.redColor;
+    
+    self.view.backgroundColor = UIColor.orangeColor;
 }
 
 - (void)buy {
