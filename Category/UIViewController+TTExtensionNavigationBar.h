@@ -39,4 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface UINavigationBar (TTExtensionNavigationBar)
+
+@property (nonatomic, assign, getter=isTT_hiddenBarBackground) BOOL TT_hiddenBarBackground;
+
+@end
+
 NS_ASSUME_NONNULL_END

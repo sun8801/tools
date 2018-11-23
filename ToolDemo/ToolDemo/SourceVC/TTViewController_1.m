@@ -23,7 +23,7 @@
     
 //    self.TT_navigationBarHidden = YES;
     
-    self.TT_navigationBarBackgroundColor = UIColor.clearColor;
+//    self.TT_navigationBarBackgroundColor = UIColor.redColor;
     
 //    self.TT_navigationBarAlpha = 0.8;
     

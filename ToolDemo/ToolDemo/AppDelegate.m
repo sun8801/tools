@@ -22,7 +22,7 @@
     [[TTIAPManager sharedIAPManager] startManager];
     [TTIAPManager updateIAPEnvironmentIsSanbox:YES];
     
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_bar"] forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_bar"] forBarMetrics:UIBarMetricsDefault];
     [UINavigationBar appearance].shadowImage = UIImage.new;
     [UINavigationBar appearance].barTintColor = UIColor.redColor;
     
