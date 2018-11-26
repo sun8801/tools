@@ -41,7 +41,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UINavigationBar (TTExtensionNavigationBar)
 
+/**
+ 设置隐藏背景（为了改变背景色/消除模糊层）
+ // 消掉navigationBar 的UIVisualEffectView 层
+ */
 @property (nonatomic, assign, getter=isTT_hiddenBarBackground) BOOL TT_hiddenBarBackground;
+
+/**
+ 获得系统的背景view
+ */
+@property (nonatomic, strong, nullable) UIView *TT_systemBackgroundView;
+
+/**
+ 设置自定义背景图
+ */
+@property (nonatomic, strong, nullable) UIView *TT_customBackgroundView;
 
 @end
 

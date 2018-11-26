@@ -29,6 +29,7 @@ static NSString *cellId = @"cellID";
     self.tableView.dataSource = self;
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:cellId];
     
+    self.view.backgroundColor = UIColor.purpleColor;
 }
 
 #pragma mark - delegate
