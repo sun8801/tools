@@ -48,14 +48,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isTT_hiddenBarBackground) BOOL TT_hiddenBarBackground;
 
 /**
- 获得系统的背景view
+ 获得运动bar
  */
-@property (nonatomic, strong, nullable) UIView *TT_systemBackgroundView;
+@property (nonatomic, strong, readonly) UINavigationBar *TT_translitionBar;
+
+- (void)TT_resetTranslitionBar;
 
 /**
  设置自定义背景图
  */
-@property (nonatomic, strong, nullable) UIView *TT_customBackgroundView;
+@property (nonatomic, strong, nullable)__kindof UIView *TT_customBackgroundView;
 
 @end
 
