@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置 手势滑动时左侧阴影颜色
  */
-@property (nonatomic, strong) UIColor *parallaxColor;
+@property (nonatomic, strong) UIColor *TT_parallaxColor;
 
 @end
 

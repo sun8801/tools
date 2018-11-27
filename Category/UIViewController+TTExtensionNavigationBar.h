@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置导航栏背景图
  */
-@property (nonatomic, strong) UIColor *TT_navigationBarBackgroundImage;
+@property (nonatomic, strong) UIImage *TT_navigationBarBackgroundImage;
 
 /**
  设置导航栏背景透明度 [0 - 1]
@@ -48,16 +48,31 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isTT_hiddenBarBackground) BOOL TT_hiddenBarBackground;
 
 /**
- 获得运动bar
+ 获得运动bar 将要消失
  */
-@property (nonatomic, strong, readonly) UINavigationBar *TT_translitionBar;
+@property (nonatomic, strong, readonly) UINavigationBar *TT_translitionDisAppearBar;
 
-- (void)TT_resetTranslitionBar;
+- (void)TT_resetTranslitionDisAppearBar;
 
 /**
- 设置自定义背景图
+ 获得运动bar 出现
  */
-@property (nonatomic, strong, nullable)__kindof UIView *TT_customBackgroundView;
+@property (nonatomic, strong, readonly) UINavigationBar *TT_translitionAppearBar;
+
+- (void)TT_resetTranslitionAppearBar;
+
+//////////////////////////////////////////////////////////////////////////////////////
+//-----------------------  自定义backgroundView  ------------------------------------//
+/////////////////////////////////////////////////////////////////////////////////////
+@property (nonatomic, strong, readonly) UIImageView *TT_customBackgroundDisAppearView;
+
+- (void)TT_resetCustomBackgroundDisAppearView;
+
+@property (nonatomic, strong, readonly) UIImageView *TT_customBackgroundAppearView;
+
+- (void)TT_resetcCustomBackgroundAppearView;
+
+- (void)TT_showCustomBackgroundDidAppearView;
 
 @end
 

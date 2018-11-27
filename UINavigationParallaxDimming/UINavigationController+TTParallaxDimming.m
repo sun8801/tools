@@ -23,20 +23,20 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
 
 @implementation UIViewController (TTParallaxDimming)
 
-- (void)setParallaxColor:(UIColor *)parallaxColor {
+- (void)setTT_parallaxColor:(UIColor *)parallaxColor {
     objc_setAssociatedObject(self, _cmd, parallaxColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (UIColor *)parallaxColor {
-    return objc_getAssociatedObject(self, @selector(setParallaxColor:));
+- (UIColor *)TT_parallaxColor {
+    return objc_getAssociatedObject(self, @selector(setTT_parallaxColor:));
 }
 
-- (void)setPopedViewController:(UIViewController *)popedViewController {
+- (void)setTT_popedViewController:(UIViewController *)popedViewController {
     objc_setAssociatedObject(self, _cmd, popedViewController, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (UIViewController *)popedViewController {
-    return objc_getAssociatedObject(self, @selector(setPopedViewController:));
+- (UIViewController *)TT_popedViewController {
+    return objc_getAssociatedObject(self, @selector(setTT_popedViewController:));
 }
 
 @end
@@ -58,7 +58,7 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
     
     [self TT_parallax_pushViewController:viewController animated:animated];
     
-    [self.topViewController setPopedViewController:topVC];
+    [self.topViewController setTT_popedViewController:topVC];
 }
 
 - (void)TT_parallax_popViewControllerAnimated:(BOOL)animated {
@@ -66,7 +66,7 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
     
     [self TT_parallax_popViewControllerAnimated:animated];
     
-    [self.topViewController setPopedViewController:topVC];
+    [self.topViewController setTT_popedViewController:topVC];
 }
 
 @end
@@ -96,10 +96,10 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
     if (!nav || ![nav isKindOfClass:UINavigationController.class]) return;
     
     UIViewController *topVC = nav.topViewController;
-    UIViewController *popedVC = [topVC popedViewController];
+    UIViewController *popedVC = [topVC TT_popedViewController];
     if (!topVC || !popedVC) return;
     
-    UIColor *parallaxColor = popedVC.parallaxColor? : nav.parallaxColor;
+    UIColor *parallaxColor = popedVC.TT_parallaxColor? : nav.TT_parallaxColor;
     if (!parallaxColor) return;
     
     UIImageView *imageView = (UIImageView *)view;

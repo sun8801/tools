@@ -24,7 +24,7 @@
     NSLog(@"%@", [[TTIAPManager alloc] init]);
     NSLog(@"%@", [TTIAPManager new]);
     
-    self.navigationController.parallaxColor = UIColor.redColor;
+    self.navigationController.TT_parallaxColor = UIColor.redColor;
     
     self.view.backgroundColor = UIColor.orangeColor;
 }

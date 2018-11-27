@@ -24,10 +24,11 @@
     
 //    self.TT_navigationBarHidden = YES;
     
-    self.parallaxColor = UIColor.orangeColor;
+    self.TT_parallaxColor = UIColor.orangeColor;
     
 //    self.TT_navigationBarAlpha = 0.2;
     self.TT_navigationBarBackgroundColor = UIColor.yellowColor;
+    self.TT_navigationBarBackgroundImage = [UIImage imageNamed:@"nav_bar1"];
 }
 
 - (IBAction)poped:(UIButton *)sender {
