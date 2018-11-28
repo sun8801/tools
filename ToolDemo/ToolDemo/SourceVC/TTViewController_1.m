@@ -25,7 +25,7 @@
 //    self.TT_navigationBarHidden = YES;
     
 //    self.TT_navigationBarBackgroundColor = UIColor.redColor;
-//    
+//
 //    self.TT_navigationBarBackgroundImage = [UIImage imageNamed:@"nav_bar1"];
     
 //    self.TT_navigationBarAlpha = 0.8;
@@ -35,9 +35,12 @@
     self.view.backgroundColor = UIColor.whiteColor;
     
     self.TT_parallaxColor = UIColor.redColor;
-    NSLog(@"%@", self.view);
     
 }
+
+//- (BOOL)prefersStatusBarHidden {
+//    return YES;
+//}
 
 
 @end

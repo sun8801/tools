@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -156,16 +157,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x87-hZ-ay5">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="x87-hZ-ay5" firstAttribute="top" secondItem="ph0-cb-nbi" secondAttribute="top" id="5vE-RU-wfG"/>
                             <constraint firstAttribute="trailing" secondItem="x87-hZ-ay5" secondAttribute="trailing" id="Cf1-aG-uUu"/>
                             <constraint firstItem="x87-hZ-ay5" firstAttribute="leading" secondItem="ph0-cb-nbi" secondAttribute="leading" id="GXb-hr-N0A"/>
-                            <constraint firstItem="dgV-6M-jVT" firstAttribute="top" secondItem="x87-hZ-ay5" secondAttribute="bottom" id="QuG-po-EfF"/>
-                            <constraint firstItem="x87-hZ-ay5" firstAttribute="top" secondItem="5lF-vn-aFZ" secondAttribute="bottom" id="hyp-fm-DB3"/>
+                            <constraint firstAttribute="bottom" secondItem="x87-hZ-ay5" secondAttribute="bottom" id="Wl0-P6-S8I"/>
                         </constraints>
                     </view>
                     <connections>

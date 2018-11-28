@@ -55,8 +55,6 @@ NS_INLINE void TT_nav_parallax_swizzleInstanceSelector(Class class, SEL original
 - (void)TT_parallax_layoutSubviews {
     [self TT_parallax_layoutSubviews];
     
-    NSLog(@"TT_parallax_layoutSubviews");
-    
     UINavigationController *nav = [self TT_parallax_nextResponder:self];
     if (!nav) return;
     UIViewController *topVC = nav.topViewController;

@@ -30,6 +30,16 @@ static NSString *cellId = @"cellID";
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:cellId];
     
     self.view.backgroundColor = UIColor.purpleColor;
+    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
+    
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 #pragma mark - delegate

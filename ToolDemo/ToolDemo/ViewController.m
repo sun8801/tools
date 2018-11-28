@@ -24,7 +24,6 @@
     
     self.view.backgroundColor = UIColor.whiteColor;
     self.TT_parallaxColor = UIColor.yellowColor;
-    NSLog(@"%@", self.view);
 }
 
 - (void)buy {
