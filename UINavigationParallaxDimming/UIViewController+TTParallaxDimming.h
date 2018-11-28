@@ -1,5 +1,5 @@
 //
-//  UINavigationController+TTParallaxDimming.h
+//  UIViewController+TTParallaxDimming.h
 //  TestRepeatLayerDemo
 //
 //  Created by sun-zt on 2018/11/12.
@@ -18,10 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
  设置 手势滑动时左侧阴影颜色
  */
 @property (nonatomic, strong) UIColor *TT_parallaxColor;
-
-@end
-
-@interface UINavigationController (TTParallaxDimming)
 
 @end
 

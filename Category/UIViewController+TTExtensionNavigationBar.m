@@ -35,16 +35,13 @@ NS_INLINE void TT_extension_vc_nav_bar_swizzleInstanceSelector(Class class, SEL 
 
 typedef void(^TT_extension_nav_bar_block_type)(id obj);
 NS_INLINE void TT_extension_nav_bar_exist_property_opertion(id self, SEL pKey, TT_extension_nav_bar_block_type block) {
-    if (!self) {
-        return;
-    }
-    if (pKey == NULL) {
+    if (!self) return;
+    if (!pKey) {
         NSLog(@"pKey can't be null...");
         return;
     }
-    if (!block) {
-        return;
-    }
+    if (!block) return;
+    
     NSObject *obj = objc_getAssociatedObject(self, pKey);
     block(obj);
     block = nil;
@@ -98,9 +95,13 @@ static void TT_extension_nav_bar_add_navigation_bar_to_VC(UIViewController *self
     
     //didAppear
     if (!self.isTT_navigationBarSetBackgroundView) {
+        [bar TT_resetCustomBackgroundDisAppearView];
+        [bar TT_resetcCustomBackgroundAppearView];
         [bar TT_resetTranslitionDisAppearBar];
         [bar TT_resetTranslitionAppearBar];
     }else {
+        [bar TT_resetTranslitionDisAppearBar];
+        [bar TT_resetTranslitionAppearBar];
         [bar TT_showCustomBackgroundDidAppearView];
     }
 }
@@ -132,6 +133,10 @@ static void TT_extension_nav_bar_to_willdisappear_VC(UIViewController *self) {
     });
     
     //计算导航栏是否相同
+    //在iOS 9 时，viewdidload 加载稍晚
+    if (!topVC.isViewLoaded) {
+        [topVC view];
+    }
     BOOL isBarEqual = TT_extension_nav_bar_is_equaled(self, topVC);
     topVC.TT_navigationBarEqualed = isBarEqual;
     if (isBarEqual) return;
@@ -225,9 +230,17 @@ static void TT_extension_nav_bar_to_didappear_VC(UIViewController *self) {
 }
 
 - (void)setTT_navigationBarBackgroundAlpha:(CGFloat)TT_navigationBarBackgroundAlpha {
-    self.TT_navigationBarSetBackgroundView = YES;
+    if (TT_navigationBarBackgroundAlpha > 1) {
+        TT_navigationBarBackgroundAlpha = 1;
+    }
+    if (TT_navigationBarBackgroundAlpha < 0) {
+        TT_navigationBarBackgroundAlpha = 0;
+    }
     if (TT_navigationBarBackgroundAlpha == self.TT_navigationBarBackgroundAlpha) {
         return;
+    }
+    if (TT_navigationBarBackgroundAlpha < 1) {
+        self.TT_navigationBarSetBackgroundView = YES;
     }
     objc_setAssociatedObject(self, @selector(TT_navigationBarBackgroundAlpha), @(TT_navigationBarBackgroundAlpha), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self TT_extension_nav_bar_updateNavigationBar];
@@ -242,6 +255,12 @@ static void TT_extension_nav_bar_to_didappear_VC(UIViewController *self) {
 }
 
 - (void)setTT_navigationBarAlpha:(CGFloat)TT_navigationBarAlpha {
+    if (TT_navigationBarAlpha > 1) {
+        TT_navigationBarAlpha = 1;
+    }
+    if (TT_navigationBarAlpha < 0) {
+        TT_navigationBarAlpha = 0;
+    }
     if (TT_navigationBarAlpha == self.TT_navigationBarAlpha) {
         return;
     }
@@ -323,7 +342,8 @@ static void TT_extension_nav_bar_to_didappear_VC(UIViewController *self) {
 NS_INLINE UIView *TT_extension_vc_nav_bar_get_background_view(UINavigationBar *self) {
     __block UIView *tempBackground = nil;
     [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj isKindOfClass:NSClassFromString(@"_UIBarBackground")]) {
+        // _UINavigationBarBackground  >=11 _UIBarBackground
+        if ([NSStringFromClass(obj.class) containsString:@"BarBackground"]) {
             tempBackground = obj;
             *stop = YES;
         }
@@ -487,7 +507,7 @@ NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavi
 - (UIImageView *)TT_customBackgroundAppearView {
     UIImageView *view = objc_getAssociatedObject(self, _cmd);
     if (!view) {
-        view = [self TT_customNavigationBackgroundDisAppearView];
+        view = [self TT_customNavigationBackgroundAppearView];
         view.frame = TT_extension_navigation_bar_custom_background_view_frame(self, NO);
         objc_setAssociatedObject(self, _cmd, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
@@ -528,6 +548,7 @@ NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavi
     UIImageView *view = objc_getAssociatedObject(self, _cmd);
     if (!view) {
         view = [[UIImageView alloc] initWithFrame:self.frame];
+        objc_setAssociatedObject(self, _cmd, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
 }
@@ -536,6 +557,7 @@ NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavi
     UIImageView *view = objc_getAssociatedObject(self, _cmd);
     if (!view) {
         view = [[UIImageView alloc] initWithFrame:self.frame];
+        objc_setAssociatedObject(self, _cmd, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
 }

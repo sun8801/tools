@@ -8,7 +8,7 @@
 
 #import "TTViewController_2.h"
 #import "UIViewController+TTExtensionNavigationBar.h"
-#import "UINavigationController+TTParallaxDimming.h"
+#import "UIViewController+TTParallaxDimming.h"
 
 @interface TTViewController_2 ()
 
