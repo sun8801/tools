@@ -5,7 +5,7 @@
 
 ## TTUINavigationExtension 
 
-代码效果：<iframe height=375 width=667 src="http://ww4.sinaimg.cn/mw690/e75a115bgw1f3rrbzv1m8g209v0diqv7.gif">
+![image](https://github.com/sun8801/tools/TT_navigation_bar.gif)
 
   封装了修改导航栏的操作，可以设置导航栏的颜色、背景图、透明度，不同的VC 可以设置不同的导航栏，无缝切换
   只需在` viewDidLoad`中设置 即可或在需要是设置
