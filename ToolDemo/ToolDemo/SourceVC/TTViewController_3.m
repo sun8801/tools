@@ -31,8 +31,8 @@ static NSString *cellId = @"cellID";
     
     self.view.backgroundColor = UIColor.purpleColor;
     
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
-//    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
 //    self.TT_navigationBarBackgroundAlpha = 0.8;
     
