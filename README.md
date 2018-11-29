@@ -5,7 +5,7 @@
 
 ## TTUINavigationExtension 
 
-![image](https://github.com/sun8801/tools/TT_navigation_bar.gif)
+![image](https://github.com/sun8801/tools/blob/master/TT_navigation_bar.gif)
 
   封装了修改导航栏的操作，可以设置导航栏的颜色、背景图、透明度，不同的VC 可以设置不同的导航栏，无缝切换
   只需在` viewDidLoad`中设置 即可或在需要是设置
