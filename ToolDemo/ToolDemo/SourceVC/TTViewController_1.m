@@ -36,6 +36,8 @@
     
     self.TT_parallaxColor = UIColor.redColor;
     
+//    self.TT_navigationBarBackgroundAlpha = 0.2;
+    
 }
 
 //- (BOOL)prefersStatusBarHidden {

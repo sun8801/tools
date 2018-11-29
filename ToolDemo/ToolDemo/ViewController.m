@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "TTIAPManager.h"
 #import "UIViewController+TTParallaxDimming.h"
+#import "UIViewController+TTExtensionNavigationBar.h"
 
 @interface ViewController () <TTIAPTransactionResultDelegate>
 
@@ -24,6 +25,9 @@
     
     self.view.backgroundColor = UIColor.whiteColor;
     self.TT_parallaxColor = UIColor.yellowColor;
+    
+//    self.TT_navigationBarBackgroundColor = UIColor.blueColor;
+//    self.TT_navigationBarBackgroundAlpha = 0.2;
 }
 
 - (void)buy {

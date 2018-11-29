@@ -27,18 +27,22 @@
     self.TT_parallaxColor = UIColor.orangeColor;
     
 //    self.TT_navigationBarAlpha = 0.2;
-    self.TT_navigationBarBackgroundColor = UIColor.yellowColor;
-    self.TT_navigationBarBackgroundImage = [UIImage imageNamed:@"nav_bar1"];
+//    self.TT_navigationBarBackgroundColor = UIColor.yellowColor;
+//    self.TT_navigationBarBackgroundImage = [UIImage imageNamed:@"nav_bar1"];
     
 //    self.TT_navigationBarHidden = YES;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.TT_navigationBarBackgroundImage = [UIImage imageNamed:@"nav_bar1"];
+    });
 }
 
 - (IBAction)poped:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//- (BOOL)prefersStatusBarHidden {
-//    return YES;
-//}
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 @end
