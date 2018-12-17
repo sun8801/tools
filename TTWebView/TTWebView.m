@@ -1,37 +1,37 @@
 //
-//  AVMWebView.m
-//  AVM
+//  TTWebView.m
+//  TT
 //
 //  Created by sunzongtang on 2017/9/1.
 //  Copyright © 2017年 . All rights reserved.
 //
 
-#import "AVMWebView.h"
+#import "TTWebView.h"
 #import <WebKit/WebKit.h>
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
 
 #define isCanWebKit NSClassFromString(@"WKWebView")
 
-#pragma mark - AVMWKWebView
-@interface AVMWKWebView : WKWebView<AVMWebViewProtocol>
+#pragma mark - TTWKWebView
+@interface TTWKWebView : WKWebView<TTWebViewProtocol>
 
 @end
 
-#pragma mark - AVMUIWebView
-@interface AVMUIWebView : UIWebView<AVMWebViewProtocol>
+#pragma mark - TTUIWebView
+@interface TTUIWebView : UIWebView<TTWebViewProtocol>
 
 @end
 
-#pragma mark -AVMWebJS
-@interface AVMWebViewJS : NSObject
+#pragma mark -TTWebJS
+@interface TTWebViewJS : NSObject
 +(NSString *)scalesPageToFitJS;
 +(NSString *)imgsElement;
 @end
 
-#pragma mark -AVMWebView
-@interface AVMWebView () <WKNavigationDelegate,UIWebViewDelegate,UIScrollViewDelegate,NJKWebViewProgressDelegate>
-@property (nonatomic,strong)  id<AVMWebViewProtocol>   webView;
+#pragma mark -TTWebView
+@interface TTWebView () <WKNavigationDelegate,UIWebViewDelegate,UIScrollViewDelegate,NJKWebViewProgressDelegate>
+@property (nonatomic,strong)  id<TTWebViewProtocol>   webView;
 @property (nonatomic, strong) UILabel                 *supportLabel;
 @property (nonatomic,strong)  NJKWebViewProgressView  *progressView; //进度条
 @property (nonatomic,copy)    NSString                *title;
@@ -39,11 +39,11 @@
 @property (nonatomic,assign)  float                    pageHeight;
 @property (nonatomic,copy)    NJKWebViewProgress      *webViewProgress;
 @property (nonatomic,strong)  UIActivityIndicatorView *indicatorView;
-@property (nonatomic,strong)  AVMWebViewConfiguration *configuration;
+@property (nonatomic,strong)  TTWebViewConfiguration *configuration;
 @property (nonatomic,copy)    NSArray                 *images;
 
 @end
-@implementation AVMWebView
+@implementation TTWebView
 
 - (void)destory {
     self.delegate = nil;
@@ -52,21 +52,21 @@
     [_webView stopLoading];
     
     if (!isCanWebKit) {
-        [(AVMUIWebView *)_webView setDelegate:nil];
+        [(TTUIWebView *)_webView setDelegate:nil];
         [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
         [[NSUserDefaults standardUserDefaults] synchronize];
 
-        [(AVMUIWebView *)_webView setDelegate:nil];
-        [(AVMUIWebView *)_webView removeFromSuperview];
+        [(TTUIWebView *)_webView setDelegate:nil];
+        [(TTUIWebView *)_webView removeFromSuperview];
     }else {
         //移除代理，否则在iOS8 上会报错
 //[WKScrollViewDelegateForwarder release]: message sent to deallocated instance 
-        [(AVMWKWebView *)_webView setUIDelegate:nil];
-        [(AVMWKWebView *)_webView setNavigationDelegate:nil];
-        [[(AVMWKWebView *)_webView scrollView] setDelegate:nil];
-        [(AVMWKWebView *)_webView removeFromSuperview];
+        [(TTWKWebView *)_webView setUIDelegate:nil];
+        [(TTWKWebView *)_webView setNavigationDelegate:nil];
+        [[(TTWKWebView *)_webView scrollView] setDelegate:nil];
+        [(TTWKWebView *)_webView removeFromSuperview];
     }
     [self removeObserverWebKit];
     
@@ -78,11 +78,11 @@
 
 
 #pragma mark -初始化
-+ (instancetype)webViewWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration
++ (instancetype)webViewWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration
 {
     return [[self alloc] initWithFrame:frame configuration:configuration];
 }
-- (instancetype)initWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration
+- (instancetype)initWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -108,40 +108,38 @@
                 webViewconfiguration.suppressesIncrementalRendering = configuration.suppressesIncrementalRendering;
                 WKUserContentController *wkUController = [[WKUserContentController alloc] init];
                 if (!configuration.scalesPageToFit) {
-                    NSString *jScript = [AVMWebViewJS scalesPageToFitJS];
+                    NSString *jScript = [TTWebViewJS scalesPageToFitJS];
                     WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
                     [wkUController addUserScript:wkUScript];
-                    WKUserScript *wkScript1 = [[WKUserScript alloc] initWithSource:[AVMWebViewJS imgsElement] injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
-                    [wkUController addUserScript:wkScript1];
                 }
                 if (configuration.captureImage) {
-                    NSString *jScript = [AVMWebViewJS imgsElement];
+                    NSString *jScript = [TTWebViewJS imgsElement];
                     WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
                     [wkUController addUserScript:wkUScript];
                     
                 }
                 webViewconfiguration.userContentController = wkUController;
-                _webView = (id)[[AVMWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) configuration:webViewconfiguration];
+                _webView = (id)[[TTWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) configuration:webViewconfiguration];
             }
             else{
-                _webView = (id)[[AVMWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+                _webView = (id)[[TTWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
             }
-            [(AVMWKWebView *)_webView setNavigationDelegate:self];
-            [(AVMWKWebView *)_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
-            [(AVMWKWebView *)_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+            [(TTWKWebView *)_webView setNavigationDelegate:self];
+            [(TTWKWebView *)_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+            [(TTWKWebView *)_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
             
         }
         else{
-            _webView = (id)[[AVMUIWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+            _webView = (id)[[TTUIWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
             if (configuration) {
-                [(AVMUIWebView *)_webView setAllowsInlineMediaPlayback:configuration.allowsInlineMediaPlayback];
-                [(AVMUIWebView *)_webView setMediaPlaybackRequiresUserAction:configuration.mediaPlaybackRequiresUserAction];
-                [(AVMUIWebView *)_webView setMediaPlaybackAllowsAirPlay:configuration.mediaPlaybackAllowsAirPlay];
-                [(AVMUIWebView *)_webView setSuppressesIncrementalRendering:configuration.suppressesIncrementalRendering];
-                [(AVMUIWebView *)_webView setScalesPageToFit:configuration.scalesPageToFit];
+                [(TTUIWebView *)_webView setAllowsInlineMediaPlayback:configuration.allowsInlineMediaPlayback];
+                [(TTUIWebView *)_webView setMediaPlaybackRequiresUserAction:configuration.mediaPlaybackRequiresUserAction];
+                [(TTUIWebView *)_webView setMediaPlaybackAllowsAirPlay:configuration.mediaPlaybackAllowsAirPlay];
+                [(TTUIWebView *)_webView setSuppressesIncrementalRendering:configuration.suppressesIncrementalRendering];
+                [(TTUIWebView *)_webView setScalesPageToFit:configuration.scalesPageToFit];
             }
             _webViewProgress = [[NJKWebViewProgress alloc] init];
-            [(AVMUIWebView *)_webView setDelegate:_webViewProgress];
+            [(TTUIWebView *)_webView setDelegate:_webViewProgress];
             _webViewProgress.webViewProxyDelegate = self;
             _webViewProgress.progressDelegate = self;
             
@@ -201,9 +199,9 @@
 {
     return _webView.isLoading;
 }
-- (void)avm_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id, NSError*))completionHandler
+- (void)TT_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id, NSError*))completionHandler
 {
-    [_webView avm_evaluateJavaScript:javaScriptString completionHandler:completionHandler];
+    [_webView TT_evaluateJavaScript:javaScriptString completionHandler:completionHandler];
 }
 
 - (void)setEstimatedProgress:(double)estimatedProgress {
@@ -242,8 +240,8 @@
     if ([navigationAction.request isKindOfClass:[NSMutableURLRequest class]]) {
         [(NSMutableURLRequest *)navigationAction.request setTimeoutInterval:30];
     }
-    if ([self.delegate respondsToSelector:@selector(avm_webView:shouldStartLoadWithRequest:navigationType:)]) {
-        load = [self.delegate avm_webView:(AVMWebView<AVMWebViewProtocol>*)self shouldStartLoadWithRequest:navigationAction.request navigationType:[self navigationTypeConvert:navigationAction.navigationType]];
+    if ([self.delegate respondsToSelector:@selector(TT_webView:shouldStartLoadWithRequest:navigationType:)]) {
+        load = [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self shouldStartLoadWithRequest:navigationAction.request navigationType:[self navigationTypeConvert:navigationAction.navigationType]];
     }
     if (load) {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -256,8 +254,8 @@
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
 {
     [_indicatorView startAnimating];
-    if ([self.delegate respondsToSelector:@selector(avm_webViewDidStartLoad:)]) {
-        [self.delegate avm_webViewDidStartLoad:(AVMWebView<AVMWebViewProtocol>*)self];
+    if ([self.delegate respondsToSelector:@selector(TT_webViewDidStartLoad:)]) {
+        [self.delegate TT_webViewDidStartLoad:(TTWebView<TTWebViewProtocol>*)self];
     }
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
@@ -266,17 +264,17 @@
     self.title = webView.title;
     self.supportLabel.text = [NSString stringWithFormat:@"此网页由 %@ 提供",webView.URL.host];
     
-    if ([self.delegate respondsToSelector:@selector(avm_webViewDidFinishLoad:)]) {
-        [self.delegate avm_webViewDidFinishLoad:(AVMWebView<AVMWebViewProtocol>*)self];
+    if ([self.delegate respondsToSelector:@selector(TT_webViewDidFinishLoad:)]) {
+        [self.delegate TT_webViewDidFinishLoad:(TTWebView<TTWebViewProtocol>*)self];
     }
     
-    [self avm_evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id heitht, NSError *error) {
+    [self TT_evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id heitht, NSError *error) {
         if (!error) {
             self.pageHeight = [heitht floatValue];
         }
     }];
     if (_configuration.captureImage) {
-        [self avm_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
+        [self TT_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
             if (!error && imgs.length) {
                 self.images = [imgs componentsSeparatedByString:@","];
             }
@@ -287,15 +285,15 @@
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     [_indicatorView stopAnimating];
-    if ([self.delegate respondsToSelector:@selector(avm_webView:didFailLoadWithError:)]) {
-        [self.delegate avm_webView:(AVMWebView<AVMWebViewProtocol>*)self didFailLoadWithError:error];
+    if ([self.delegate respondsToSelector:@selector(TT_webView:didFailLoadWithError:)]) {
+        [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self didFailLoadWithError:error];
     }
 }
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     [_indicatorView stopAnimating];
-    if ([self.delegate respondsToSelector:@selector(avm_webView:didFailLoadWithError:)]) {
-        [self.delegate avm_webView:(AVMWebView<AVMWebViewProtocol>*)self didFailLoadWithError:error];
+    if ([self.delegate respondsToSelector:@selector(TT_webView:didFailLoadWithError:)]) {
+        [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self didFailLoadWithError:error];
     }
 }
 
@@ -309,16 +307,16 @@
     }
     
     BOOL isLoad = YES;
-    if ([self.delegate respondsToSelector:@selector(avm_webView:shouldStartLoadWithRequest:navigationType:)]) {
-        isLoad = [self.delegate avm_webView:(AVMWebView<AVMWebViewProtocol>*)self shouldStartLoadWithRequest:request navigationType:[self navigationTypeConvert:navigationType]];
+    if ([self.delegate respondsToSelector:@selector(TT_webView:shouldStartLoadWithRequest:navigationType:)]) {
+        isLoad = [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self shouldStartLoadWithRequest:request navigationType:[self navigationTypeConvert:navigationType]];
     }
     return isLoad;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     [_indicatorView startAnimating];
-    if ([self.delegate respondsToSelector:@selector(avm_webViewDidStartLoad:)]) {
-        [self.delegate avm_webViewDidStartLoad:(AVMWebView<AVMWebViewProtocol>*)self];
+    if ([self.delegate respondsToSelector:@selector(TT_webViewDidStartLoad:)]) {
+        [self.delegate TT_webViewDidStartLoad:(TTWebView<TTWebViewProtocol>*)self];
     }
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView
@@ -327,17 +325,17 @@
     self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     self.supportLabel.text = [NSString stringWithFormat:@"此网页由 %@ 提供",webView.request.URL.host];
     
-    if ([self.delegate respondsToSelector:@selector(avm_webViewDidFinishLoad:)]) {
-        [self.delegate avm_webViewDidFinishLoad:(AVMWebView<AVMWebViewProtocol> *)self];
+    if ([self.delegate respondsToSelector:@selector(TT_webViewDidFinishLoad:)]) {
+        [self.delegate TT_webViewDidFinishLoad:(TTWebView<TTWebViewProtocol> *)self];
     }
-    [self avm_evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id heitht, NSError *error) {
+    [self TT_evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id heitht, NSError *error) {
         if (!error) {
             self.pageHeight = [heitht floatValue];
         }
     }];
     if (_configuration.captureImage) {
-        [self avm_evaluateJavaScript:[AVMWebViewJS imgsElement] completionHandler:nil];
-        [self avm_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
+        [self TT_evaluateJavaScript:[TTWebViewJS imgsElement] completionHandler:nil];
+        [self TT_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
             if (!error && imgs.length) {
                 self.images = [imgs componentsSeparatedByString:@","];
             }
@@ -347,8 +345,8 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [_indicatorView stopAnimating];
-    if ([self.delegate respondsToSelector:@selector(avm_webView:didFailLoadWithError:)]) {
-        [self.delegate avm_webView:(AVMWebView<AVMWebViewProtocol>*)self didFailLoadWithError:error];
+    if ([self.delegate respondsToSelector:@selector(TT_webView:didFailLoadWithError:)]) {
+        [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self didFailLoadWithError:error];
     }
 }
 
@@ -405,51 +403,51 @@
     if (isCanWebKit) {
         switch (type) {
             case WKNavigationTypeLinkActivated:
-                navigationType = AVMWebViewNavigationLinkClicked;
+                navigationType = TTWebViewNavigationLinkClicked;
                 break;
             case WKNavigationTypeFormSubmitted:
-                navigationType = AVMWebViewNavigationFormSubmitted;
+                navigationType = TTWebViewNavigationFormSubmitted;
                 break;
             case WKNavigationTypeBackForward:
-                navigationType = AVMWebViewNavigationBackForward;
+                navigationType = TTWebViewNavigationBackForward;
                 break;
             case WKNavigationTypeReload:
-                navigationType = AVMWebViewNavigationReload;
+                navigationType = TTWebViewNavigationReload;
                 break;
             case WKNavigationTypeFormResubmitted:
-                navigationType = AVMWebViewNavigationResubmitted;
+                navigationType = TTWebViewNavigationResubmitted;
                 break;
             case WKNavigationTypeOther:
-                navigationType = AVMWebViewNavigationOther;
+                navigationType = TTWebViewNavigationOther;
                 break;
             default:
-                navigationType = AVMWebViewNavigationOther;
+                navigationType = TTWebViewNavigationOther;
                 break;
         }
     }
     else{
         switch (type) {
             case UIWebViewNavigationTypeLinkClicked:
-                navigationType = AVMWebViewNavigationLinkClicked;
+                navigationType = TTWebViewNavigationLinkClicked;
                 break;
             case UIWebViewNavigationTypeFormSubmitted:
-                navigationType = AVMWebViewNavigationFormSubmitted;
+                navigationType = TTWebViewNavigationFormSubmitted;
                 break;
             case UIWebViewNavigationTypeBackForward:
-                navigationType = AVMWebViewNavigationBackForward;
+                navigationType = TTWebViewNavigationBackForward;
                 break;
             case UIWebViewNavigationTypeReload:
-                navigationType = AVMWebViewNavigationReload;
+                navigationType = TTWebViewNavigationReload;
                 break;
             case UIWebViewNavigationTypeFormResubmitted:
-                navigationType = AVMWebViewNavigationResubmitted;
+                navigationType = TTWebViewNavigationResubmitted;
                 break;
             case UIWebViewNavigationTypeOther:
-                navigationType = AVMWebViewNavigationOther;
+                navigationType = TTWebViewNavigationOther;
                 break;
                 
             default:
-                navigationType = AVMWebViewNavigationOther;
+                navigationType = TTWebViewNavigationOther;
                 break;
         }
     }
@@ -479,24 +477,24 @@
 
 - (void)removeObserverWebKit {
     if (isCanWebKit) {
-        [(AVMWebView *)_webView removeObserver:self forKeyPath:@"title"];
-        [(AVMWebView *)_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+        [(TTWebView *)_webView removeObserver:self forKeyPath:@"title"];
+        [(TTWebView *)_webView removeObserver:self forKeyPath:@"estimatedProgress"];
     }
 }
 
 @end
 
 
-@implementation AVMWKWebView
+@implementation TTWKWebView
 
--(void)avm_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
+-(void)TT_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
 {
     [self evaluateJavaScript:javaScriptString completionHandler:completionHandler];
 }
 @end
 
-@implementation AVMUIWebView
--(void)avm_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
+@implementation TTUIWebView
+-(void)TT_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
 {
     NSString* result = [self stringByEvaluatingJavaScriptFromString:javaScriptString];
     if (completionHandler) {
@@ -505,7 +503,7 @@
 }
 @end
 
-@implementation AVMWebViewConfiguration
+@implementation TTWebViewConfiguration
 
 + (instancetype)defaultWebViewConfiguration {
     return [[self alloc] init];
@@ -524,7 +522,7 @@
 }
 @end
 
-@implementation AVMWebViewJS
+@implementation TTWebViewJS
 +(NSString *)scalesPageToFitJS
 {
     return @"var meta = document.createElement('meta'); \

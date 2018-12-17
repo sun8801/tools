@@ -1,6 +1,6 @@
 //
-//  AVMWebView.h
-//  AVM
+//  TTWebView.h
+//  TT
 //
 //  Created by sunzongtang on 2017/9/1.
 //  Copyright © 2017年. All rights reserved.
@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
-    AVMWebViewNavigationLinkClicked,
-    AVMWebViewNavigationFormSubmitted,
-    AVMWebViewNavigationBackForward,
-    AVMWebViewNavigationReload,
-    AVMWebViewNavigationResubmitted,
-    AVMWebViewNavigationOther = -1
+typedef NS_ENUM(NSInteger,TTWebViewNavigationType) {
+    TTWebViewNavigationLinkClicked,
+    TTWebViewNavigationFormSubmitted,
+    TTWebViewNavigationBackForward,
+    TTWebViewNavigationReload,
+    TTWebViewNavigationResubmitted,
+    TTWebViewNavigationOther = -1
 };
 
-@protocol AVMWebViewProtocol <NSObject>
+@protocol TTWebViewProtocol <NSObject>
 
 @optional
 @property (nonatomic, readonly, strong) UIScrollView *scrollView;
@@ -37,21 +37,21 @@ typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
 - (void)stopLoading;
 - (void)goBack;
 - (void)goForward;
-- (void)avm_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id result, NSError* error))completionHandler;
+- (void)TT_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id result, NSError* error))completionHandler;
 
 @end
 
-@protocol AVMWebViewDelegate <NSObject>
+@protocol TTWebViewDelegate <NSObject>
 
 @optional
-- (BOOL)avm_webView:(id<AVMWebViewProtocol>)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(AVMWebViewNavigationType)navigationType;
-- (void)avm_webViewDidStartLoad:(id<AVMWebViewProtocol>)webView;
-- (void)avm_webViewDidFinishLoad:(id<AVMWebViewProtocol>)webView;
-- (void)avm_webView:(id<AVMWebViewProtocol>)webView didFailLoadWithError:(NSError *)error;
+- (BOOL)TT_webView:(id<TTWebViewProtocol>)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(TTWebViewNavigationType)navigationType;
+- (void)TT_webViewDidStartLoad:(id<TTWebViewProtocol>)webView;
+- (void)TT_webViewDidFinishLoad:(id<TTWebViewProtocol>)webView;
+- (void)TT_webView:(id<TTWebViewProtocol>)webView didFailLoadWithError:(NSError *)error;
 
 @end
 
-@interface AVMWebViewConfiguration : NSObject
+@interface TTWebViewConfiguration : NSObject
 
 + (instancetype)defaultWebViewConfiguration;
 
@@ -65,13 +65,13 @@ typedef NS_ENUM(NSInteger,AVMWebViewNavigationType) {
 
 @end
 
-@interface AVMWebView : UIView <AVMWebViewProtocol>
+@interface TTWebView : UIView <TTWebViewProtocol>
 
-- (instancetype)initWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
-+ (instancetype)webViewWithFrame:(CGRect)frame configuration:(AVMWebViewConfiguration *)configuration;
++ (instancetype)webViewWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration;
 
-@property (nonatomic,weak) id<AVMWebViewDelegate> delegate;
+@property (nonatomic,weak) id<TTWebViewDelegate> delegate;
 
 //当时UIWebView的时候，主动销毁
 - (void)destory;

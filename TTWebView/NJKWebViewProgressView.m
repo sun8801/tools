@@ -51,7 +51,7 @@
         if (progress >= 1.0) {
             if (!self.gradientLayer.hidden || self.showProgress) {
                 [NSObject cancelPreviousPerformRequestsWithTarget:self];
-                [self performSelector:@selector(showGradientLayer:) withObject:@(NO) afterDelay:_fadeOutDelay];
+                [self performSelector:@selector(showGradientLayer:) withObject:@(NO) afterDelay:self->_fadeOutDelay];
             }
         }
         else {
