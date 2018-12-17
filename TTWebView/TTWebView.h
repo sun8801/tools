@@ -31,8 +31,14 @@ typedef NS_ENUM(NSInteger,TTWebViewNavigationType) {
 // use KVO
 @property (nonatomic, readonly) float pageHeight;
 @property (nonatomic, readonly, copy) NSArray * images;  // webview's images when captureImage is NO images = nil
+@property (nonatomic, readonly, strong) NSURL *URL;
+
 - (void)loadRequest:(NSURLRequest *)request;
 - (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL;
+- (void)loadData:(NSData *)data MIMEType:(NSString *)MIMEType characterEncodingName:(NSString *)characterEncodingName baseURL:(NSURL *)baseURL;
+- (void)loadURLString:(NSString *)urlString;
+- (void)loadURL:(NSURL *)url;
+
 - (void)reload;
 - (void)stopLoading;
 - (void)goBack;
@@ -59,9 +65,10 @@ typedef NS_ENUM(NSInteger,TTWebViewNavigationType) {
 @property (nonatomic) BOOL mediaPlaybackRequiresUserAction; // iPhone and iPad Safari both default to YES
 @property (nonatomic) BOOL mediaPlaybackAllowsAirPlay; // iPhone and iPad Safari both default to YES
 @property (nonatomic) BOOL suppressesIncrementalRendering; // iPhone and iPad Safari both default to NO
-@property (nonatomic) BOOL scalesPageToFit;
+@property (nonatomic) BOOL scalesPageToFit;     //default YES
 @property (nonatomic) BOOL loadingHUD;          //default NO ,if YES webview will add HUD when loading
 @property (nonatomic) BOOL captureImage;        //default NO ,if YES webview will capture all image in content;
+@property (nonatomic) BOOL showSupportHost;     //default YES, show 网页来自...域名
 
 @end
 
@@ -73,7 +80,7 @@ typedef NS_ENUM(NSInteger,TTWebViewNavigationType) {
 
 @property (nonatomic,weak) id<TTWebViewDelegate> delegate;
 
-//当时UIWebView的时候，主动销毁
+//销毁
 - (void)destory;
 
 //--不可使用--//

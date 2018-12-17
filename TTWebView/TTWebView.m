@@ -78,12 +78,11 @@
 
 
 #pragma mark -初始化
-+ (instancetype)webViewWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration
-{
++ (instancetype)webViewWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration {
     return [[self alloc] initWithFrame:frame configuration:configuration];
 }
-- (instancetype)initWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration
-{
+
+- (instancetype)initWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration {
     self = [super initWithFrame:frame];
     if (self) {
         _configuration = configuration;
@@ -107,7 +106,7 @@
                 
                 webViewconfiguration.suppressesIncrementalRendering = configuration.suppressesIncrementalRendering;
                 WKUserContentController *wkUController = [[WKUserContentController alloc] init];
-                if (!configuration.scalesPageToFit) {
+                if (configuration.scalesPageToFit) {
                     NSString *jScript = [TTWebViewJS scalesPageToFitJS];
                     WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
                     [wkUController addUserScript:wkUScript];
@@ -158,47 +157,64 @@
     }
     return self;
 }
--(UIScrollView *)scrollView
-{
+
+#pragma mark - public method
+-(UIScrollView *)scrollView {
     return _webView.scrollView;
 }
-- (void)loadRequest:(NSURLRequest *)request
-{
+
+- (void)loadRequest:(NSURLRequest *)request {
     [_webView loadRequest:request];
 }
 
-- (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL
-{
+- (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL {
     [_webView loadHTMLString:string baseURL:baseURL];
 }
-- (void)reload
-{
+
+- (void)loadData:(NSData *)data MIMEType:(NSString *)MIMEType characterEncodingName:(NSString *)characterEncodingName baseURL:(NSURL *)baseURL {
+    [_webView loadData:data MIMEType:MIMEType characterEncodingName:characterEncodingName baseURL:baseURL];
+}
+
+- (void)loadURLString:(NSString *)urlString {
+    [_webView loadURLString:urlString];
+}
+
+- (void)loadURL:(NSURL *)url {
+    [_webView loadURL:url];
+}
+
+- (void)reload {
     [_webView reload];
 }
 - (void)stopLoading
 {
     [_webView stopLoading];
 }
-- (void)goBack
-{
+
+- (void)goBack {
     [_webView goBack];
 }
-- (void)goForward
-{
+
+- (void)goForward {
     [_webView goForward];
 }
--(BOOL)canGoBack
-{
+
+-(BOOL)canGoBack {
     return _webView.canGoBack;
 }
--(BOOL)canGoForward
-{
+
+-(BOOL)canGoForward {
     return _webView.canGoForward;
 }
--(BOOL)isLoading
-{
+
+-(BOOL)isLoading {
     return _webView.isLoading;
 }
+
+- (NSURL *)URL {
+    return _webView.URL;
+}
+
 - (void)TT_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id, NSError*))completionHandler
 {
     [_webView TT_evaluateJavaScript:javaScriptString completionHandler:completionHandler];
@@ -218,13 +234,12 @@
 }
 
 #pragma mark - NJKWebViewProgressDelegate
-- (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
-{
+- (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress {
     self.estimatedProgress = progress;
 }
+
 #pragma mark - KVO
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"title"]) {
         self.title = change[NSKeyValueChangeNewKey];
     }
@@ -232,9 +247,9 @@
         self.estimatedProgress = [change[NSKeyValueChangeNewKey] doubleValue];
     }
 }
+
 #pragma mark - WKWebViewNavigation Delegate
-- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
-{
+- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     [self bringSubviewToFront:_progressView];
     BOOL load = YES;
     if ([navigationAction.request isKindOfClass:[NSMutableURLRequest class]]) {
@@ -251,15 +266,14 @@
     
 }
 
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
     [_indicatorView startAnimating];
     if ([self.delegate respondsToSelector:@selector(TT_webViewDidStartLoad:)]) {
         [self.delegate TT_webViewDidStartLoad:(TTWebView<TTWebViewProtocol>*)self];
     }
 }
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
-{
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
     [_indicatorView stopAnimating];
     self.title = webView.title;
     self.supportLabel.text = [NSString stringWithFormat:@"此网页由 %@ 提供",webView.URL.host];
@@ -280,17 +294,16 @@
             }
         }];
     }
-    
 }
-- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
-{
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(TT_webView:didFailLoadWithError:)]) {
         [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self didFailLoadWithError:error];
     }
 }
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
-{
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(TT_webView:didFailLoadWithError:)]) {
         [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self didFailLoadWithError:error];
@@ -298,8 +311,7 @@
 }
 
 #pragma mark - UIWebView Delegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     [self bringSubviewToFront:_progressView];
     
     if ([request isKindOfClass:[NSMutableURLRequest class]]) {
@@ -312,18 +324,20 @@
     }
     return isLoad;
 }
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
     [_indicatorView startAnimating];
     if ([self.delegate respondsToSelector:@selector(TT_webViewDidStartLoad:)]) {
         [self.delegate TT_webViewDidStartLoad:(TTWebView<TTWebViewProtocol>*)self];
     }
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [_indicatorView stopAnimating];
     self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    self.supportLabel.text = [NSString stringWithFormat:@"此网页由 %@ 提供",webView.request.URL.host];
+    if (self.configuration.showSupportHost) {
+        self.supportLabel.text = [NSString stringWithFormat:@"此网页由 %@ 提供",webView.request.URL.host];
+    }
     
     if ([self.delegate respondsToSelector:@selector(TT_webViewDidFinishLoad:)]) {
         [self.delegate TT_webViewDidFinishLoad:(TTWebView<TTWebViewProtocol> *)self];
@@ -342,8 +356,8 @@
         }];
     }
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(TT_webView:didFailLoadWithError:)]) {
         [self.delegate TT_webView:(TTWebView<TTWebViewProtocol>*)self didFailLoadWithError:error];
@@ -351,14 +365,13 @@
 }
 
 #pragma mark - scrollView Delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     //下拉隐藏网页提供方
     (scrollView.contentOffset.y >= -30) ? (_supportLabel.hidden = YES) : (_supportLabel.hidden = NO);
 }
 
 #pragma mark - Init
--(UIActivityIndicatorView *)indicatorView
-{
+-(UIActivityIndicatorView *)indicatorView {
     if (!_indicatorView) {
         _indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         _indicatorView.hidesWhenStopped = YES;
@@ -366,7 +379,7 @@
     return _indicatorView;
 }
 
-- (NJKWebViewProgressView *)progressView{
+- (NJKWebViewProgressView *)progressView {
     if (_progressView == nil) {
         CGFloat progressH = 2.f;
         NJKWebViewProgressView *progressView = [[NJKWebViewProgressView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), progressH)];
@@ -377,7 +390,7 @@
     return _progressView;
 }
 
-- (UILabel *)supportLabel{
+- (UILabel *)supportLabel {
     if (_supportLabel == nil) {
         _supportLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width - 2 * 50, 50)];
         //网页来源提示居中
@@ -397,8 +410,7 @@
 }
 
 #pragma mark -Privity
--(NSInteger)navigationTypeConvert:(NSInteger)type;
-{
+-(NSInteger)navigationTypeConvert:(NSInteger)type {
     NSInteger navigationType;
     if (isCanWebKit) {
         switch (type) {
@@ -445,7 +457,6 @@
             case UIWebViewNavigationTypeOther:
                 navigationType = TTWebViewNavigationOther;
                 break;
-                
             default:
                 navigationType = TTWebViewNavigationOther;
                 break;
@@ -453,20 +464,20 @@
     }
     return navigationType;
 }
--(void)layoutSubviews
-{
+
+-(void)layoutSubviews {
     _indicatorView.frame = CGRectMake(0, 0, 20, 20);
     _indicatorView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     
     [super layoutSubviews];
 }
--(void)setNeedsLayout
-{
+
+-(void)setNeedsLayout {
     [super setNeedsLayout];
     [(UIView *)_webView setNeedsLayout];
 }
--(void)dealloc
-{
+
+-(void)dealloc {
 #ifdef DEBUG
     NSLog(@">>>dealloc>>>>>:%@",NSStringFromClass(self.class));
 #endif
@@ -487,20 +498,47 @@
 
 @implementation TTWKWebView
 
--(void)TT_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
-{
+- (void)loadURLString:(NSString *)urlString {
+    [self loadURL:[NSURL URLWithString:urlString]];
+}
+
+- (void)loadURL:(NSURL *)url {
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:(NSURLRequestUseProtocolCachePolicy) timeoutInterval:30];
+    [self loadRequest:request];
+}
+
+-(void)TT_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler {
     [self evaluateJavaScript:javaScriptString completionHandler:completionHandler];
 }
+
 @end
 
 @implementation TTUIWebView
--(void)TT_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
-{
+
+- (NSURL *)URL {
+    return self.request.URL;
+}
+
+- (void)loadData:(NSData *)data MIMEType:(NSString *)MIMEType characterEncodingName:(NSString *)characterEncodingName baseURL:(NSURL *)baseURL {
+    [self loadData:data MIMEType:MIMEType textEncodingName:characterEncodingName baseURL:baseURL];
+}
+
+- (void)loadURLString:(NSString *)urlString {
+    [self loadURL:[NSURL URLWithString:urlString]];
+}
+
+- (void)loadURL:(NSURL *)url {
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:(NSURLRequestUseProtocolCachePolicy) timeoutInterval:30];
+    [self loadRequest:request];
+}
+
+-(void)TT_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler {
     NSString* result = [self stringByEvaluatingJavaScriptFromString:javaScriptString];
     if (completionHandler) {
         completionHandler(result,nil);
     }
 }
+
 @end
 
 @implementation TTWebViewConfiguration
@@ -509,30 +547,31 @@
     return [[self alloc] init];
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _allowsInlineMediaPlayback       = NO;
         _mediaPlaybackRequiresUserAction = YES;
         _mediaPlaybackAllowsAirPlay      = YES;
         _suppressesIncrementalRendering  = NO;
+        _scalesPageToFit                 = YES;
+        _showSupportHost                 = YES;
     }
     return self;
 }
 @end
 
 @implementation TTWebViewJS
-+(NSString *)scalesPageToFitJS
-{
+
++(NSString *)scalesPageToFitJS {
     return @"var meta = document.createElement('meta'); \
     meta.name = 'viewport'; \
     meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'; \
     var head = document.getElementsByTagName('head')[0];\
     head.appendChild(meta);";
 }
-+(NSString *)imgsElement
-{
+
++(NSString *)imgsElement {
     return @"function imgsElement(){\
     var imgs = document.getElementsByTagName(\"img\");\
     var imgScr = '';\

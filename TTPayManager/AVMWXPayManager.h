@@ -6,6 +6,12 @@
 //  Copyright © 2017年 WanYueLiang. All rights reserved.
 //
 
+#ifndef WXSDKHASIMPORT
+#define WXSDKHASIMPORT 0
+#endif
+
+#if WXSDKHASIMPORT
+
 #import <Foundation/Foundation.h>
 #import "WXApi.h"
 
@@ -27,3 +33,5 @@ avm_singleton_interface(AVMWXPayManager);
 @property (nonatomic, weak) id<AVMWXPayResultDelegate> delegate;
 
 @end
+
+#endif

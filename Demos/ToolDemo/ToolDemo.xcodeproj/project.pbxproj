@@ -7,20 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A41C11AC21AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C11A721AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.m */; };
-		A41C11AD21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A41C11AB21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.m */; };
 		A42BA80C2176D765003801DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA80B2176D765003801DD /* AppDelegate.m */; };
 		A42BA80F2176D765003801DD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA80E2176D765003801DD /* ViewController.m */; };
 		A42BA8122176D765003801DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42BA8102176D765003801DD /* Main.storyboard */; };
 		A42BA8142176D767003801DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42BA8132176D767003801DD /* Assets.xcassets */; };
 		A42BA8172176D767003801DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42BA8152176D767003801DD /* LaunchScreen.storyboard */; };
 		A42BA81A2176D767003801DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8192176D767003801DD /* main.m */; };
-		A42BA8342176F607003801DD /* TTIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8322176F607003801DD /* TTIAPManager.m */; };
-		A42BA86521807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */; };
-		A4F35A8E21A558AE0048D341 /* NSString+TTLimitTextLength.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8121A558AE0048D341 /* NSString+TTLimitTextLength.m */; };
-		A4F35A9021A558AE0048D341 /* UIImage+TTStretchBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8821A558AE0048D341 /* UIImage+TTStretchBorder.m */; };
-		A4F35A9221A558AE0048D341 /* UITextView+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8B21A558AE0048D341 /* UITextView+TTLimitInputCharacters.m */; };
-		A4F35A9321A558AE0048D341 /* UITextField+TTLimitInputCharacters.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A8C21A558AE0048D341 /* UITextField+TTLimitInputCharacters.m */; };
+		A4A1AF5E21C793FB00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A4A1AF4721C793FA00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg */; };
+		A4A1AF5F21C793FB00E3B771 /* AVMWXPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF4821C793FA00E3B771 /* AVMWXPayManager.m */; };
+		A4A1AF6021C793FB00E3B771 /* TTIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF4921C793FA00E3B771 /* TTIAPManager.m */; };
+		A4A1AF6721C793FB00E3B771 /* UIViewController+TTParallaxDimming.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF5921C793FB00E3B771 /* UIViewController+TTParallaxDimming.m */; };
+		A4A1AF6821C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF5D21C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.m */; };
 		A4F35A9B21A55A140048D341 /* TTViewController_1.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A9A21A55A140048D341 /* TTViewController_1.m */; };
 		A4F35A9E21A55A220048D341 /* TTViewController_2.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35A9D21A55A220048D341 /* TTViewController_2.m */; };
 		A4F35AA121A55A2B0048D341 /* TTViewController_3.m in Sources */ = {isa = PBXBuildFile; fileRef = A4F35AA021A55A2B0048D341 /* TTViewController_3.m */; };
@@ -28,10 +25,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A41C11A721AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TTParallaxDimming.m"; sourceTree = "<group>"; };
-		A41C11A821AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TTParallaxDimming.h"; sourceTree = "<group>"; };
-		A41C11AA21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TTExtensionNavigationBar.h"; sourceTree = "<group>"; };
-		A41C11AB21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TTExtensionNavigationBar.m"; sourceTree = "<group>"; };
 		A42BA8072176D765003801DD /* ToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42BA80A2176D765003801DD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A42BA80B2176D765003801DD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -42,17 +35,15 @@
 		A42BA8162176D767003801DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A42BA8182176D767003801DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A42BA8192176D767003801DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A42BA8302176F607003801DD /* TTIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTIAPManager.h; sourceTree = "<group>"; };
-		A42BA8322176F607003801DD /* TTIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTIAPManager.m; sourceTree = "<group>"; };
-		A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = D91DE108A3A6E088A54F16E62B4413D0.jpg; sourceTree = "<group>"; };
-		A4F35A8121A558AE0048D341 /* NSString+TTLimitTextLength.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TTLimitTextLength.m"; sourceTree = "<group>"; };
-		A4F35A8221A558AE0048D341 /* UIImage+TTStretchBorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TTStretchBorder.h"; sourceTree = "<group>"; };
-		A4F35A8421A558AE0048D341 /* UITextField+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
-		A4F35A8521A558AE0048D341 /* UITextView+TTLimitInputCharacters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+TTLimitInputCharacters.h"; sourceTree = "<group>"; };
-		A4F35A8821A558AE0048D341 /* UIImage+TTStretchBorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TTStretchBorder.m"; sourceTree = "<group>"; };
-		A4F35A8921A558AE0048D341 /* NSString+TTLimitTextLength.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TTLimitTextLength.h"; sourceTree = "<group>"; };
-		A4F35A8B21A558AE0048D341 /* UITextView+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
-		A4F35A8C21A558AE0048D341 /* UITextField+TTLimitInputCharacters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+TTLimitInputCharacters.m"; sourceTree = "<group>"; };
+		A4A1AF4521C793FA00E3B771 /* AVMWXPayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVMWXPayManager.h; sourceTree = "<group>"; };
+		A4A1AF4621C793FA00E3B771 /* TTIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTIAPManager.h; sourceTree = "<group>"; };
+		A4A1AF4721C793FA00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = D91DE108A3A6E088A54F16E62B4413D0.jpg; sourceTree = "<group>"; };
+		A4A1AF4821C793FA00E3B771 /* AVMWXPayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVMWXPayManager.m; sourceTree = "<group>"; };
+		A4A1AF4921C793FA00E3B771 /* TTIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTIAPManager.m; sourceTree = "<group>"; };
+		A4A1AF5921C793FB00E3B771 /* UIViewController+TTParallaxDimming.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TTParallaxDimming.m"; sourceTree = "<group>"; };
+		A4A1AF5A21C793FB00E3B771 /* UIViewController+TTParallaxDimming.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TTParallaxDimming.h"; sourceTree = "<group>"; };
+		A4A1AF5C21C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TTExtensionNavigationBar.h"; sourceTree = "<group>"; };
+		A4A1AF5D21C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TTExtensionNavigationBar.m"; sourceTree = "<group>"; };
 		A4F35A9921A55A140048D341 /* TTViewController_1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTViewController_1.h; sourceTree = "<group>"; };
 		A4F35A9A21A55A140048D341 /* TTViewController_1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTViewController_1.m; sourceTree = "<group>"; };
 		A4F35A9C21A55A220048D341 /* TTViewController_2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTViewController_2.h; sourceTree = "<group>"; };
@@ -74,34 +65,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A41C11A521AFDDC100EC0A37 /* TTUINavigationExtension */ = {
-			isa = PBXGroup;
-			children = (
-				A41C11A621AFDDC100EC0A37 /* UINavigationParallaxDimming */,
-				A41C11A921AFDDC100EC0A37 /* UINavigationExtension */,
-			);
-			name = TTUINavigationExtension;
-			path = ../../TTUINavigationExtension;
-			sourceTree = "<group>";
-		};
-		A41C11A621AFDDC100EC0A37 /* UINavigationParallaxDimming */ = {
-			isa = PBXGroup;
-			children = (
-				A41C11A721AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.m */,
-				A41C11A821AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.h */,
-			);
-			path = UINavigationParallaxDimming;
-			sourceTree = "<group>";
-		};
-		A41C11A921AFDDC100EC0A37 /* UINavigationExtension */ = {
-			isa = PBXGroup;
-			children = (
-				A41C11AA21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.h */,
-				A41C11AB21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.m */,
-			);
-			path = UINavigationExtension;
-			sourceTree = "<group>";
-		};
 		A42BA7FE2176D765003801DD = {
 			isa = PBXGroup;
 			children = (
@@ -121,48 +84,61 @@
 		A42BA8092176D765003801DD /* ToolDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A41C11A521AFDDC100EC0A37 /* TTUINavigationExtension */,
-				A4F35A7E21A558AE0048D341 /* Category */,
-				A42BA82E2176F607003801DD /* TTPayManager */,
 				A42BA80A2176D765003801DD /* AppDelegate.h */,
-				A42BA80B2176D765003801DD /* AppDelegate.m */,
 				A42BA80D2176D765003801DD /* ViewController.h */,
+				A42BA80B2176D765003801DD /* AppDelegate.m */,
+				A42BA8192176D767003801DD /* main.m */,
 				A42BA80E2176D765003801DD /* ViewController.m */,
-				A4F35A9821A559EC0048D341 /* SourceVC */,
-				A42BA8102176D765003801DD /* Main.storyboard */,
+				A42BA8182176D767003801DD /* Info.plist */,
 				A42BA8132176D767003801DD /* Assets.xcassets */,
 				A42BA8152176D767003801DD /* LaunchScreen.storyboard */,
-				A42BA8182176D767003801DD /* Info.plist */,
-				A42BA8192176D767003801DD /* main.m */,
+				A42BA8102176D765003801DD /* Main.storyboard */,
+				A4F35A9821A559EC0048D341 /* SourceVC */,
+				A4A1AF4421C793FA00E3B771 /* TTPayManager */,
+				A4A1AF5721C793FB00E3B771 /* TTUINavigationExtension */,
 			);
 			path = ToolDemo;
 			sourceTree = "<group>";
 		};
-		A42BA82E2176F607003801DD /* TTPayManager */ = {
+		A4A1AF4421C793FA00E3B771 /* TTPayManager */ = {
 			isa = PBXGroup;
 			children = (
-				A42BA86421807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg */,
-				A42BA8302176F607003801DD /* TTIAPManager.h */,
-				A42BA8322176F607003801DD /* TTIAPManager.m */,
+				A4A1AF4721C793FA00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg */,
+				A4A1AF4521C793FA00E3B771 /* AVMWXPayManager.h */,
+				A4A1AF4821C793FA00E3B771 /* AVMWXPayManager.m */,
+				A4A1AF4621C793FA00E3B771 /* TTIAPManager.h */,
+				A4A1AF4921C793FA00E3B771 /* TTIAPManager.m */,
 			);
 			name = TTPayManager;
-			path = ../../TTPayManager;
+			path = ../../../TTPayManager;
 			sourceTree = "<group>";
 		};
-		A4F35A7E21A558AE0048D341 /* Category */ = {
+		A4A1AF5721C793FB00E3B771 /* TTUINavigationExtension */ = {
 			isa = PBXGroup;
 			children = (
-				A4F35A8921A558AE0048D341 /* NSString+TTLimitTextLength.h */,
-				A4F35A8121A558AE0048D341 /* NSString+TTLimitTextLength.m */,
-				A4F35A8221A558AE0048D341 /* UIImage+TTStretchBorder.h */,
-				A4F35A8821A558AE0048D341 /* UIImage+TTStretchBorder.m */,
-				A4F35A8421A558AE0048D341 /* UITextField+TTLimitInputCharacters.h */,
-				A4F35A8C21A558AE0048D341 /* UITextField+TTLimitInputCharacters.m */,
-				A4F35A8521A558AE0048D341 /* UITextView+TTLimitInputCharacters.h */,
-				A4F35A8B21A558AE0048D341 /* UITextView+TTLimitInputCharacters.m */,
+				A4A1AF5821C793FB00E3B771 /* UINavigationParallaxDimming */,
+				A4A1AF5B21C793FB00E3B771 /* UINavigationExtension */,
 			);
-			name = Category;
-			path = ../../Category;
+			name = TTUINavigationExtension;
+			path = ../../../TTUINavigationExtension;
+			sourceTree = "<group>";
+		};
+		A4A1AF5821C793FB00E3B771 /* UINavigationParallaxDimming */ = {
+			isa = PBXGroup;
+			children = (
+				A4A1AF5921C793FB00E3B771 /* UIViewController+TTParallaxDimming.m */,
+				A4A1AF5A21C793FB00E3B771 /* UIViewController+TTParallaxDimming.h */,
+			);
+			path = UINavigationParallaxDimming;
+			sourceTree = "<group>";
+		};
+		A4A1AF5B21C793FB00E3B771 /* UINavigationExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A4A1AF5C21C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.h */,
+				A4A1AF5D21C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.m */,
+			);
+			path = UINavigationExtension;
 			sourceTree = "<group>";
 		};
 		A4F35A9821A559EC0048D341 /* SourceVC */ = {
@@ -239,7 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A42BA8172176D767003801DD /* LaunchScreen.storyboard in Resources */,
-				A42BA86521807349003801DD /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */,
+				A4A1AF5E21C793FB00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */,
 				A42BA8142176D767003801DD /* Assets.xcassets in Resources */,
 				A42BA8122176D765003801DD /* Main.storyboard in Resources */,
 			);
@@ -252,18 +228,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4F35A9321A558AE0048D341 /* UITextField+TTLimitInputCharacters.m in Sources */,
 				A42BA80F2176D765003801DD /* ViewController.m in Sources */,
+				A4A1AF6721C793FB00E3B771 /* UIViewController+TTParallaxDimming.m in Sources */,
 				A4F35A9E21A55A220048D341 /* TTViewController_2.m in Sources */,
-				A42BA8342176F607003801DD /* TTIAPManager.m in Sources */,
-				A4F35A9021A558AE0048D341 /* UIImage+TTStretchBorder.m in Sources */,
-				A4F35A9221A558AE0048D341 /* UITextView+TTLimitInputCharacters.m in Sources */,
+				A4A1AF5F21C793FB00E3B771 /* AVMWXPayManager.m in Sources */,
+				A4A1AF6021C793FB00E3B771 /* TTIAPManager.m in Sources */,
 				A42BA81A2176D767003801DD /* main.m in Sources */,
 				A4F35AA421A55A370048D341 /* TTViewController_4.m in Sources */,
-				A4F35A8E21A558AE0048D341 /* NSString+TTLimitTextLength.m in Sources */,
+				A4A1AF6821C793FB00E3B771 /* UIViewController+TTExtensionNavigationBar.m in Sources */,
 				A4F35A9B21A55A140048D341 /* TTViewController_1.m in Sources */,
-				A41C11AD21AFDDC100EC0A37 /* UIViewController+TTExtensionNavigationBar.m in Sources */,
-				A41C11AC21AFDDC100EC0A37 /* UIViewController+TTParallaxDimming.m in Sources */,
 				A42BA80C2176D765003801DD /* AppDelegate.m in Sources */,
 				A4F35AA121A55A2B0048D341 /* TTViewController_3.m in Sources */,
 			);

@@ -6,6 +6,8 @@
 //  Copyright © 2017年 WanYueLiang. All rights reserved.
 //
 
+#if WXSDKHASIMPORT
+
 #import "AVMWXPayManager.h"
 
 @interface AVMWXPayManager ()
@@ -53,3 +55,5 @@ avm_singleton_implementation(AVMWXPayManager)
 }
 
 @end
+
+#endif
