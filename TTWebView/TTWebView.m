@@ -31,7 +31,7 @@
 
 #pragma mark -TTWebView
 @interface TTWebView () <WKNavigationDelegate,UIWebViewDelegate,UIScrollViewDelegate,NJKWebViewProgressDelegate>
-@property (nonatomic,strong)  id<TTWebViewProtocol>   webView;
+@property (nonatomic,strong)  UIView<TTWebViewProtocol> *webView;
 @property (nonatomic, strong) UILabel                 *supportLabel;
 @property (nonatomic,strong)  NJKWebViewProgressView  *progressView; //进度条
 @property (nonatomic,copy)    NSString                *title;
@@ -119,6 +119,8 @@
                 }
                 webViewconfiguration.userContentController = wkUController;
                 _webView = (id)[[TTWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) configuration:webViewconfiguration];
+                
+                [(WKWebView *)_webView setAllowsBackForwardNavigationGestures:YES];
             }
             else{
                 _webView = (id)[[TTWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];

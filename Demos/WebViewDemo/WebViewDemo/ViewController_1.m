@@ -19,6 +19,7 @@
     // Do any additional setup after loading the view.
     
     [self.webView loadURLString:@"https://www.baidu.com"];
+    
 }
 
 - (void)dealloc {

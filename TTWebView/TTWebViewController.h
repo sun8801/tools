@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TTWebViewController : UIViewController
+@interface TTWebViewController : UIViewController <TTWebViewDelegate>
 
 @property (nonatomic, strong, readonly) TTWebView *webView;
 

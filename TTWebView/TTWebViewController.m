@@ -8,11 +8,9 @@
 
 #import "TTWebViewController.h"
 
-@interface TTWebViewController ()<TTWebViewDelegate>
+@interface TTWebViewController ()
 
 @property (nonatomic, strong) TTWebView *webView;
-
-@property (nonatomic, strong) NSMutableArray<UIImage *> *historyStack; //历史列表
 
 @end
 
@@ -33,16 +31,36 @@
 
 
 #pragma mark - delegate
+- (BOOL)TT_webView:(id<TTWebViewProtocol>)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(TTWebViewNavigationType)navigationType {
+    BOOL shouldStartLoad = YES;
+    
+    
+    return shouldStartLoad;
+}
 
+- (void)TT_webViewDidStartLoad:(id<TTWebViewProtocol>)webView {
+    
+}
+
+- (void)TT_webViewDidFinishLoad:(id<TTWebViewProtocol>)webView {
+    
+}
+
+- (void)TT_webView:(id<TTWebViewProtocol>)webView didFailLoadWithError:(NSError *)error {
+    
+}
+
+
+#pragma mark - go or forwoard
+- (BOOL)canGoBack {
+    return self.webView.canGoBack;
+}
+
+- (BOOL)canForward {
+    return self.webView.canGoForward;
+}
 
 #pragma mark - private
-- (UIImage *)webViewTakeSnapshot {
-    UIGraphicsBeginImageContextWithOptions(self.webView.bounds.size, NO, [UIScreen mainScreen].scale);
-    [self.webView drawViewHierarchyInRect:self.webView.bounds afterScreenUpdates:NO];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
 
 #pragma mark - property
 - (TTWebView *)webView {

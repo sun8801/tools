@@ -74,6 +74,8 @@ typedef NS_ENUM(NSInteger,TTWebViewNavigationType) {
 
 @interface TTWebView : UIView <TTWebViewProtocol>
 
+@property (nonatomic, strong, readonly) UIView<TTWebViewProtocol> *webView;
+
 - (instancetype)initWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)webViewWithFrame:(CGRect)frame configuration:(TTWebViewConfiguration *)configuration;

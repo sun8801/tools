@@ -110,8 +110,8 @@
     [colors addObject:(id)[UIColor blueColor].CGColor];
     [self.gradientLayer setColors:[NSArray arrayWithArray:colors]];
     self.mask = [CALayer layer];
-    [self.mask setFrame:CGRectMake(self.gradientLayer.frame.origin.x,
-                                   self.gradientLayer.frame.origin.y,
+    [self.mask setFrame:CGRectMake(0,
+                                   0,
                                    self.progress * CGRectGetWidth(self.frame),
                                    CGRectGetHeight(self.frame))];
     self.mask.borderColor = [[UIColor blueColor] CGColor];
