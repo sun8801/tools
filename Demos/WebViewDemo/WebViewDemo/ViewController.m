@@ -21,14 +21,16 @@
     
     self.view.backgroundColor = UIColor.blueColor;
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 100, 50.8, 80)];
-    [self.view addSubview:imageView];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 100, 141, 80)];
+//    [self.view addSubview:imageView];
     
     UIImage *image = [UIImage imageNamed:@"combinedShapeCopy"];
     
     image = [image stretchBothSidesImageDesSize:imageView.bounds.size stretchLeftBorder:10 topBorder:15 bottomBorder:25];
 
     imageView.image = image;
+    
+    self.view.maskView = imageView;
     
 }
 

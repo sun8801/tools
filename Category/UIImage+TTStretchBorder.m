@@ -26,9 +26,13 @@ static UIImage *tt_stretch_both_sides_image(UIImage *image, CGSize desSize, CGFl
         return nil;
     }
     CGSize imageSize = image.size;
-    if (imageSize.width == desSize.width) {
+    
+    if (fabs(desSize.width - imageSize.width) <= 4) {
         return image;
     }
+    
+    imageSize.width = floor(imageSize.width);
+    desSize.width   = floor(desSize.width);
     
     BOOL desSizeThan = desSize.width > imageSize.width;
     
@@ -38,7 +42,7 @@ static UIImage *tt_stretch_both_sides_image(UIImage *image, CGSize desSize, CGFl
     
     //先拉取左边
     CGFloat left = stretchLeftBorder;
-    CGFloat right = desSizeThan? (imageSize.width - left +1): (imageSize.width - fabs(needWidth) -left);
+    CGFloat right = desSizeThan? (imageSize.width - left -1): (imageSize.width - fabs(needWidth) -left);
     
     
     //画图， 生成拉伸的左边后的图片
@@ -47,8 +51,8 @@ static UIImage *tt_stretch_both_sides_image(UIImage *image, CGSize desSize, CGFl
     
     //生成拉伸后的图片-》左
     CGFloat height = imageSize.height;
-    UIImage *strectedImage = [image resizableImageWithCapInsets:UIEdgeInsetsMake(top, left, bottom, right)];
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(tempStrecthWith, height), NO, 0);
+    UIImage *strectedImage = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0, left, 0, right)];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(tempStrecthWith, height), NO, image.scale);
     [strectedImage drawInRect:CGRectMake(0, 0, tempStrecthWith, height)];
     strectedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -59,13 +63,13 @@ static UIImage *tt_stretch_both_sides_image(UIImage *image, CGSize desSize, CGFl
     
     //生成拉伸后的图片-》右
     tempStrecthWith = desSize.width;
-    strectedImage = [strectedImage resizableImageWithCapInsets:UIEdgeInsetsMake(top, left, bottom, right)];
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(tempStrecthWith, height), NO, 0);
+    strectedImage = [strectedImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, left, 0, right)];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(tempStrecthWith, height), NO, image.scale);
     [strectedImage drawInRect:CGRectMake(0, 0, tempStrecthWith, height)];
     strectedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    return strectedImage;
+    return [strectedImage resizableImageWithCapInsets:UIEdgeInsetsMake(top, 0, bottom, 0)];
 }
 
 @implementation UIImage (TTStretchBorder)
