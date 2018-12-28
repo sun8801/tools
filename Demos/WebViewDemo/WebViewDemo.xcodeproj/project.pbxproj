@@ -18,6 +18,7 @@
 		A4A1AF7221C795ED00E3B771 /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF6E21C795ED00E3B771 /* NJKWebViewProgressView.m */; };
 		A4A1AF7521C7967100E3B771 /* ViewController_1.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF7421C7967100E3B771 /* ViewController_1.m */; };
 		A4A1AF7821C7A72300E3B771 /* TTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF7721C7A72300E3B771 /* TTWebViewController.m */; };
+		A4DFCB3521D5FE5B0006387D /* UIImage+TTStretchBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4DFCB3321D5FE5B0006387D /* UIImage+TTStretchBorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		A4A1AF7421C7967100E3B771 /* ViewController_1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController_1.m; sourceTree = "<group>"; };
 		A4A1AF7621C7A72300E3B771 /* TTWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTWebViewController.h; sourceTree = "<group>"; };
 		A4A1AF7721C7A72300E3B771 /* TTWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTWebViewController.m; sourceTree = "<group>"; };
+		A4DFCB3321D5FE5B0006387D /* UIImage+TTStretchBorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+TTStretchBorder.m"; path = "../../../Category/UIImage+TTStretchBorder.m"; sourceTree = "<group>"; };
+		A4DFCB3421D5FE5B0006387D /* UIImage+TTStretchBorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+TTStretchBorder.h"; path = "../../../Category/UIImage+TTStretchBorder.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +76,8 @@
 		A4A1AF2421C7939500E3B771 /* WebViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A4DFCB3421D5FE5B0006387D /* UIImage+TTStretchBorder.h */,
+				A4DFCB3321D5FE5B0006387D /* UIImage+TTStretchBorder.m */,
 				A4A1AF6921C795ED00E3B771 /* TTWebView */,
 				A4A1AF2521C7939500E3B771 /* AppDelegate.h */,
 				A4A1AF2621C7939500E3B771 /* AppDelegate.m */,
@@ -175,6 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4DFCB3521D5FE5B0006387D /* UIImage+TTStretchBorder.m in Sources */,
 				A4A1AF7021C795ED00E3B771 /* NJKWebViewProgress.m in Sources */,
 				A4A1AF7221C795ED00E3B771 /* NJKWebViewProgressView.m in Sources */,
 				A4A1AF2A21C7939500E3B771 /* ViewController.m in Sources */,
