@@ -124,7 +124,11 @@ NS_INLINE BOOL TT_extension_scrollview_vertical_velocity_change_continue(UIScrol
 @end
 
 static char TTUsedScrollView;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wprotocol"
 @implementation UIView (TTVerticalVelocity)
+#pragma clang diagnostic pop
 
 + (void)load {
     static dispatch_once_t onceToken;

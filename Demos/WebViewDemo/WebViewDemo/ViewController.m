@@ -21,16 +21,16 @@
     
     self.view.backgroundColor = UIColor.blueColor;
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 100, 141, 80)];
-//    [self.view addSubview:imageView];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 100, 320, 24)];
+    [self.view addSubview:imageView];
     
-    UIImage *image = [UIImage imageNamed:@"combinedShapeCopy"];
+    UIImage *image = [UIImage imageNamed:@"md_vorder_room_activity_celebration_logo_border_1_yes"];
     
     image = [image stretchBothSidesImageDesSize:imageView.bounds.size stretchLeftBorder:10 topBorder:15 bottomBorder:25];
 
     imageView.image = image;
     
-    self.view.maskView = imageView;
+//    self.view.maskView = imageView;
     
 }
 
