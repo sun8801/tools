@@ -55,7 +55,7 @@ static _IMP _resolvedColorWithTraitCollection_IMP;
 
 #pragma mark - exchange
 - (id)_resolvedColorWithTraitCollection:(id)p {
-    NSLog(@"走到了 UIDynamicSystemColor _resolvedColorWithTraitCollection：---%@", p);
+//    NSLog(@"走到了 UIDynamicSystemColor _resolvedColorWithTraitCollection：---%@", p);
     id ret = _resolvedColorWithTraitCollection_IMP(self, _cmd, p);
     return ret;
 }

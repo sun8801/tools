@@ -401,8 +401,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R89P4KXRWG;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 36WT396TPZ;
 				INFOPLIST_FILE = ToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -411,6 +411,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sun.zt.ToolDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Xcode iOS Wildcard";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -419,8 +420,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R89P4KXRWG;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 36WT396TPZ;
 				INFOPLIST_FILE = ToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -429,6 +430,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sun.zt.ToolDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Xcode iOS Wildcard";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

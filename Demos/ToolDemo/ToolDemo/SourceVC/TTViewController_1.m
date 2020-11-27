@@ -24,7 +24,7 @@
     
 //    self.TT_navigationBarHidden = YES;
     
-//    self.TT_navigationBarBackgroundColor = UIColor.redColor;
+    self.TT_navigationBarBackgroundColor = UIColor.blackColor;
 //
 //    self.TT_navigationBarBackgroundImage = [UIImage imageNamed:@"nav_bar1"];
     
