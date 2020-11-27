@@ -32,11 +32,15 @@
     
 //    self.TT_navigationBarHidden = YES;
     
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.view.backgroundColor = UIColor.grayColor;
     
     self.TT_parallaxColor = UIColor.redColor;
     
 //    self.TT_navigationBarBackgroundAlpha = 0.2;
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] init];
+    [item setTitle:@"nihao"];
+    [self.navigationItem setRightBarButtonItem:item];
     
 }
 
