@@ -10,6 +10,8 @@
 #import "TTIAPManager.h"
 #import "UIViewController+TTParallaxDimming.h"
 #import "UIViewController+TTExtensionNavigationBar.h"
+#import "NSObject+TTSwizzle.h"
+#import "AllClasses.h"
 
 @interface ViewController () <TTIAPTransactionResultDelegate>
 
@@ -17,9 +19,20 @@
 
 @implementation ViewController
 
+static _IMP _resolvedColorWithTraitCollection_IMP;
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _resolvedColorWithTraitCollection_IMP = [self tt_replaceOriginalClass:NSClassFromString(@"UIDynamicSystemColor") withAltClass:ViewController.class method:NSSelectorFromString(@"_resolvedColorWithTraitCollection:")];
+    });
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    NSLog(@"%@", UIColor.systemRedColor);
     
 //    self.navigationController.TT_parallaxColor = UIColor.redColor;
     
@@ -38,6 +51,13 @@
 
 - (void)IAPTansactionResultCode:(TTIAPCodeType)codeType error:(NSString *)errorString {
     //获得当前交易回调
+}
+
+#pragma mark - exchange
+- (id)_resolvedColorWithTraitCollection:(id)p {
+    NSLog(@"走到了 UIDynamicSystemColor _resolvedColorWithTraitCollection：---%@", p);
+    id ret = _resolvedColorWithTraitCollection_IMP(self, _cmd, p);
+    return ret;
 }
 
 @end

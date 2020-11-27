@@ -13,6 +13,8 @@
 		A42BA8142176D767003801DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42BA8132176D767003801DD /* Assets.xcassets */; };
 		A42BA8172176D767003801DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42BA8152176D767003801DD /* LaunchScreen.storyboard */; };
 		A42BA81A2176D767003801DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A42BA8192176D767003801DD /* main.m */; };
+		A467B9DB2570F81000BF47B1 /* NSObject+TTSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = A467B9D92570F81000BF47B1 /* NSObject+TTSwizzle.m */; };
+		A467B9DE2570F9DC00BF47B1 /* AllClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = A467B9DD2570F9DC00BF47B1 /* AllClasses.m */; };
 		A4A1AF5E21C793FB00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A4A1AF4721C793FA00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg */; };
 		A4A1AF5F21C793FB00E3B771 /* AVMWXPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF4821C793FA00E3B771 /* AVMWXPayManager.m */; };
 		A4A1AF6021C793FB00E3B771 /* TTIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A1AF4921C793FA00E3B771 /* TTIAPManager.m */; };
@@ -35,6 +37,10 @@
 		A42BA8162176D767003801DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A42BA8182176D767003801DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A42BA8192176D767003801DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A467B9D92570F81000BF47B1 /* NSObject+TTSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TTSwizzle.m"; sourceTree = "<group>"; };
+		A467B9DA2570F81000BF47B1 /* NSObject+TTSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TTSwizzle.h"; sourceTree = "<group>"; };
+		A467B9DC2570F9DC00BF47B1 /* AllClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllClasses.h; sourceTree = "<group>"; };
+		A467B9DD2570F9DC00BF47B1 /* AllClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllClasses.m; sourceTree = "<group>"; };
 		A4A1AF4521C793FA00E3B771 /* AVMWXPayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVMWXPayManager.h; sourceTree = "<group>"; };
 		A4A1AF4621C793FA00E3B771 /* TTIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTIAPManager.h; sourceTree = "<group>"; };
 		A4A1AF4721C793FA00E3B771 /* D91DE108A3A6E088A54F16E62B4413D0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = D91DE108A3A6E088A54F16E62B4413D0.jpg; sourceTree = "<group>"; };
@@ -84,20 +90,33 @@
 		A42BA8092176D765003801DD /* ToolDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A467B9DC2570F9DC00BF47B1 /* AllClasses.h */,
+				A467B9DD2570F9DC00BF47B1 /* AllClasses.m */,
 				A42BA80A2176D765003801DD /* AppDelegate.h */,
-				A42BA80D2176D765003801DD /* ViewController.h */,
 				A42BA80B2176D765003801DD /* AppDelegate.m */,
-				A42BA8192176D767003801DD /* main.m */,
-				A42BA80E2176D765003801DD /* ViewController.m */,
-				A42BA8182176D767003801DD /* Info.plist */,
 				A42BA8132176D767003801DD /* Assets.xcassets */,
+				A42BA8182176D767003801DD /* Info.plist */,
 				A42BA8152176D767003801DD /* LaunchScreen.storyboard */,
+				A42BA8192176D767003801DD /* main.m */,
 				A42BA8102176D765003801DD /* Main.storyboard */,
 				A4F35A9821A559EC0048D341 /* SourceVC */,
 				A4A1AF4421C793FA00E3B771 /* TTPayManager */,
+				A467B9D82570F81000BF47B1 /* TTSwizzle */,
 				A4A1AF5721C793FB00E3B771 /* TTUINavigationExtension */,
+				A42BA80D2176D765003801DD /* ViewController.h */,
+				A42BA80E2176D765003801DD /* ViewController.m */,
 			);
 			path = ToolDemo;
+			sourceTree = "<group>";
+		};
+		A467B9D82570F81000BF47B1 /* TTSwizzle */ = {
+			isa = PBXGroup;
+			children = (
+				A467B9DA2570F81000BF47B1 /* NSObject+TTSwizzle.h */,
+				A467B9D92570F81000BF47B1 /* NSObject+TTSwizzle.m */,
+			);
+			name = TTSwizzle;
+			path = ../../../TTSwizzle;
 			sourceTree = "<group>";
 		};
 		A4A1AF4421C793FA00E3B771 /* TTPayManager */ = {
@@ -126,8 +145,8 @@
 		A4A1AF5821C793FB00E3B771 /* UINavigationParallaxDimming */ = {
 			isa = PBXGroup;
 			children = (
-				A4A1AF5921C793FB00E3B771 /* UIViewController+TTParallaxDimming.m */,
 				A4A1AF5A21C793FB00E3B771 /* UIViewController+TTParallaxDimming.h */,
+				A4A1AF5921C793FB00E3B771 /* UIViewController+TTParallaxDimming.m */,
 			);
 			path = UINavigationParallaxDimming;
 			sourceTree = "<group>";
@@ -230,6 +249,7 @@
 			files = (
 				A42BA80F2176D765003801DD /* ViewController.m in Sources */,
 				A4A1AF6721C793FB00E3B771 /* UIViewController+TTParallaxDimming.m in Sources */,
+				A467B9DB2570F81000BF47B1 /* NSObject+TTSwizzle.m in Sources */,
 				A4F35A9E21A55A220048D341 /* TTViewController_2.m in Sources */,
 				A4A1AF5F21C793FB00E3B771 /* AVMWXPayManager.m in Sources */,
 				A4A1AF6021C793FB00E3B771 /* TTIAPManager.m in Sources */,
@@ -239,6 +259,7 @@
 				A4F35A9B21A55A140048D341 /* TTViewController_1.m in Sources */,
 				A42BA80C2176D765003801DD /* AppDelegate.m in Sources */,
 				A4F35AA121A55A2B0048D341 /* TTViewController_3.m in Sources */,
+				A467B9DE2570F9DC00BF47B1 /* AllClasses.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
