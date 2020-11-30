@@ -603,11 +603,6 @@ NS_INLINE void TT_extension_navigation_bar_reset_bar(id self, SEL selKey) {
     UIView *background = objc_getAssociatedObject(self, _cmd);
     if (background) return background;
     
-//    background = [vc.view.window
-//                  resizableSnapshotViewFromRect:
-//                  TT_extension_navigation_bar_custom_background_view_frame(self, NO)
-//                  afterScreenUpdates:NO
-//                  withCapInsets:UIEdgeInsetsZero];
     background = [TT_extension_vc_nav_bar_get_background_view(self) snapshotViewAfterScreenUpdates:NO];
 
     objc_setAssociatedObject(self, _cmd, background, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -618,23 +613,16 @@ NS_INLINE void TT_extension_navigation_bar_reset_bar(id self, SEL selKey) {
     UIView *background = objc_getAssociatedObject(self, _cmd);
     if (background) return background;
     
-//    background = [vc.view
-//                  resizableSnapshotViewFromRect:
-//                  TT_extension_navigation_bar_custom_background_view_frame(self, NO)
-//                  afterScreenUpdates:YES
-//                  withCapInsets:UIEdgeInsetsZero];
-    background = TT_extension_vc_nav_bar_get_background_view(self);
+    UIView *bgView = TT_extension_vc_nav_bar_get_background_view(self);
+    
+    // 在iOS 14上有问题，故拷贝bar的background与子ImageView
+    background = [self TT_copyView:bgView];
+    background.frame = TT_extension_navigation_bar_custom_background_view_frame(self, NO);
     background.hidden = NO;
-//    background = [background snapshotViewAfterScreenUpdates:NO];
-    
-    [background removeFromSuperview];
-    
-#error 无法获取
     
     objc_setAssociatedObject(self, _cmd, background, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return background;
 }
-
 
 NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavigationBar *self, BOOL didShow) {
     CGRect barFrame = self.frame;
@@ -681,6 +669,15 @@ NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavi
         objc_setAssociatedObject(self, _cmd, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
+}
+
+- (UIView *)TT_copyView:(UIView *)view {
+    NSData *tempArchive = [NSKeyedArchiver archivedDataWithRootObject:view];
+    UIView *copiedView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
+    if ([view.subviews count] > 0) {
+        [copiedView addSubview:[self TT_copyView:view.subviews[0]]];
+    }
+    return copiedView;
 }
 
 @end
