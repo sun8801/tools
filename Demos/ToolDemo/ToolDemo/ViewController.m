@@ -24,7 +24,7 @@ static _IMP _resolvedColorWithTraitCollection_IMP;
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _resolvedColorWithTraitCollection_IMP = [self tt_replaceOriginalClass:NSClassFromString(@"UIDynamicSystemColor") withAltClass:ViewController.class method:NSSelectorFromString(@"_resolvedColorWithTraitCollection:")];
+//        _resolvedColorWithTraitCollection_IMP = [self tt_replaceOriginalClass:NSClassFromString(@"UIDynamicSystemColor") withAltClass:ViewController.class method:NSSelectorFromString(@"_resolvedColorWithTraitCollection:")];
     });
 }
 

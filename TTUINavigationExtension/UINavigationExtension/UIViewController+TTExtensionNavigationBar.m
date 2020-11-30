@@ -26,14 +26,14 @@
 /**
  获得运动bar 将要消失
  */
-@property (nonatomic, strong, readonly) UINavigationBar *TT_transitionDisAppearBar;
+- (UIView *)TT_transitionDisAppearBar:(UIViewController *)vc;
 
 - (void)TT_resettransitionDisAppearBar;
 
 /**
  获得运动bar 出现
  */
-@property (nonatomic, strong, readonly) UINavigationBar *TT_transitionAppearBar;
+- (UIView *)TT_transitionAppearBar:(UIViewController *)vc;
 
 - (void)TT_resettransitionAppearBar;
 
@@ -172,10 +172,10 @@ static void TT_extension_nav_bar_add_navigation_bar_to_VC(UIViewController *self
             }
         }else { //系统
             if (isWillApperar) {
-                background = bar.TT_transitionAppearBar;
+                background = [bar TT_transitionAppearBar:self];
             }else {
                 [bar TT_resettransitionAppearBar];
-                background = bar.TT_transitionDisAppearBar;
+                background = [bar TT_transitionDisAppearBar:self];
             }
         }
         TT_extension_nav_bar_update_custom_background_bar(self, background);
@@ -481,7 +481,6 @@ NS_INLINE UIView *TT_extension_vc_nav_bar_get_background_view(UINavigationBar *s
 
 @interface UINavigationBar (TTExtensionNavigationBarInner)
 
-@property (nonatomic, assign) BOOL TT_navigationBarTransitionBar;
 
 @end
 
@@ -500,14 +499,6 @@ NS_INLINE UIView *TT_extension_vc_nav_bar_get_background_view(UINavigationBar *s
 - (void)TT_extension_nav_bar_layoutSubviews {
     [self TT_extension_nav_bar_layoutSubviews];
     
-    if (self.TT_navigationBarTransitionBar) {
-        UIView *other = TT_extension_vc_nav_bar_get_background_view(self);
-        CGRect frame = other.frame;
-        frame.origin.y    = - CGRectGetMinY(self.frame);
-        frame.size.height = CGRectGetMaxY(self.frame);
-        other.frame = frame;
-        return;
-    }
 
     CGRect backFrame = TT_extension_navigation_bar_custom_background_view_frame(self, YES);
     UIView *backView = TT_extension_vc_nav_bar_get_background_view(self);
@@ -532,18 +523,6 @@ NS_INLINE UIView *TT_extension_vc_nav_bar_get_background_view(UINavigationBar *s
         });
         [self insertSubview:obj atIndex:0];
     });
-    TT_extension_nav_bar_exist_property_operation(self, @selector(TT_transitionAppearBar), ^(UINavigationBar *obj) {
-        if (!obj || ![obj.superview isEqual:self]) return ;
-        TT_extension_nav_bar_no_animation_block(^{
-            obj.frame = self.frame;
-        });
-    });
-    TT_extension_nav_bar_exist_property_operation(self, @selector(TT_transitionDisAppearBar), ^(UINavigationBar *obj) {
-        if (!obj || ![obj.superview isEqual:self]) return ;
-        TT_extension_nav_bar_no_animation_block(^{
-            obj.frame = self.frame;
-        });
-    });
 }
 
 #pragma mark - reset method
@@ -555,12 +534,12 @@ NS_INLINE void TT_extension_navigation_bar_reset_bar(id self, SEL selKey) {
     objc_setAssociatedObject(self, selKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 - (void)TT_resettransitionDisAppearBar {
-    SEL selKey = @selector(TT_transitionDisAppearBar);
+    SEL selKey = @selector(TT_transitionDisAppearBar:);
     TT_extension_navigation_bar_reset_bar(self, selKey);
 }
 
 - (void)TT_resettransitionAppearBar {
-    SEL selKey = @selector(TT_transitionAppearBar);
+    SEL selKey = @selector(TT_transitionAppearBar:);
     TT_extension_navigation_bar_reset_bar(self, selKey);
 }
 
@@ -620,34 +599,29 @@ NS_INLINE void TT_extension_navigation_bar_reset_bar(id self, SEL selKey) {
     return value.floatValue;
 }
 
-- (UINavigationBar *)TT_transitionDisAppearBar {
-    UINavigationBar *background = objc_getAssociatedObject(self, _cmd);
+- (UIView *)TT_transitionDisAppearBar:(UIViewController *)vc {
+    UIView *background = objc_getAssociatedObject(self, _cmd);
     if (background) return background;
     
-    UINavigationBar *bar = [self TT_customNavigationDisAppearBar];
-    [bar setBackgroundImage:[self backgroundImageForBarMetrics:UIBarMetricsDefault] forBarMetrics:UIBarMetricsDefault];
-    bar.shadowImage  = self.shadowImage;
-    bar.barTintColor = self.barTintColor;
-    bar.tintColor    = self.tintColor;
-    bar.frame        = self.frame;
-    
-    objc_setAssociatedObject(self, _cmd, bar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    return bar;
+    background = [TT_extension_vc_nav_bar_get_background_view(self) snapshotViewAfterScreenUpdates:NO];
+
+    objc_setAssociatedObject(self, _cmd, background, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return background;
 }
 
-- (UINavigationBar *)TT_transitionAppearBar {
-    UINavigationBar *background = objc_getAssociatedObject(self, _cmd);
+- (UIView *)TT_transitionAppearBar:(UIViewController *)vc {
+    UIView *background = objc_getAssociatedObject(self, _cmd);
     if (background) return background;
     
-    UINavigationBar *bar = [self TT_customNavigationAppearBar];
-    [bar setBackgroundImage:[self backgroundImageForBarMetrics:UIBarMetricsDefault] forBarMetrics:UIBarMetricsDefault];
-    bar.shadowImage  = self.shadowImage;
-    bar.barTintColor = self.barTintColor;
-    bar.tintColor    = self.tintColor;
-    bar.frame        = self.frame;
+    UIView *bgView = TT_extension_vc_nav_bar_get_background_view(self);
     
-    objc_setAssociatedObject(self, _cmd, bar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    return bar;
+    // 在iOS 14上有问题，故拷贝bar的background与子ImageView
+    background = [self TT_copyView:bgView];
+    background.frame = TT_extension_navigation_bar_custom_background_view_frame(self, NO);
+    background.hidden = NO;
+    
+    objc_setAssociatedObject(self, _cmd, background, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return background;
 }
 
 NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavigationBar *self, BOOL didShow) {
@@ -679,34 +653,6 @@ NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavi
 
 #pragma mark - inner
 
-- (void)setTT_navigationBarTransitionBar:(BOOL)TT_navigationBarTransitionBar {
-    objc_setAssociatedObject(self, @selector(TT_navigationBarTransitionBar), @(TT_navigationBarTransitionBar), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (BOOL)TT_navigationBarTransitionBar {
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-
-- (UINavigationBar *)TT_customNavigationDisAppearBar {
-    UINavigationBar *bar = objc_getAssociatedObject(self, _cmd);
-    if (!bar) {
-        bar = [[UINavigationBar alloc] initWithFrame:self.bounds];
-        bar.TT_navigationBarTransitionBar = YES;
-        objc_setAssociatedObject(self, _cmd, bar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return bar;
-}
-
-- (UINavigationBar *)TT_customNavigationAppearBar {
-    UINavigationBar *bar = objc_getAssociatedObject(self, _cmd);
-    if (!bar) {
-        bar = [[UINavigationBar alloc] initWithFrame:self.bounds];
-        bar.TT_navigationBarTransitionBar = YES;
-        objc_setAssociatedObject(self, _cmd, bar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return bar;
-}
-
 - (UIImageView *)TT_customNavigationBackgroundDisAppearView {
     UIImageView *view = objc_getAssociatedObject(self, _cmd);
     if (!view) {
@@ -723,6 +669,15 @@ NS_INLINE CGRect TT_extension_navigation_bar_custom_background_view_frame(UINavi
         objc_setAssociatedObject(self, _cmd, view, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return view;
+}
+
+- (UIView *)TT_copyView:(UIView *)view {
+    NSData *tempArchive = [NSKeyedArchiver archivedDataWithRootObject:view];
+    UIView *copiedView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
+    if ([view.subviews count] > 0) {
+        [copiedView addSubview:[self TT_copyView:view.subviews[0]]];
+    }
+    return copiedView;
 }
 
 @end
